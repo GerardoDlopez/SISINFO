@@ -11,61 +11,33 @@
   </div>
   <div class="sidebar-body">
     <ul class="nav">
-      <li class="nav-item nav-category">Main</li>
-      <li class="nav-item ">
-        <a href="" class="nav-link">
-          <i class="link-icon" data-feather="box"></i>
-          <span class="link-title">Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-item nav-category">web apps</li>
-      @can('sorteo.show')
+      <li class="nav-item nav-category">Usuarios</li>
         <li class="nav-item ">
-          <a href="{{Route('sorteo.show')}}" class="nav-link">
-            <i class="link-icon" data-feather="message-square"></i>
-            <span class="link-title">Sorteos</span>
+          <a href="{{Route('user.read')}}" class="nav-link">
+            <i class="link-icon" data-feather="users"></i>
+            <span class="link-title">Usuario Editar/Eliminar</span>
           </a>
-        </li>    
-      @endcan
+        </li>
+        <li class="nav-item ">
+          <a href="{{Route('user.create')}}" class="nav-link">
+            <i class="link-icon" data-feather="user-plus"></i>
+            <span class="link-title">Agregar usuario</span>
+          </a>
+        </li>
+      <li  class="nav-item nav-category">Credenciales</li>
+        <li class="nav-item ">
+          <a href="{{Route('credencial.read')}}" class="nav-link">
+            <i class="link-icon" data-feather="file"></i>
+            <span class="link-title">Credenciales Editar/Eliminar</span>
+          </a>
+        </li>
 
-      @can('gastos.sorteos')
-      <li class="nav-item ">
-        <a href="{{Route('gastos.show')}}" class="nav-link">
-          <i class="link-icon" data-feather="message-square"></i>
-          <span class="link-title">gastos</span>
-        </a>
-      </li>    
-      @endcan
-      
-      <li class="nav-item ">
-        @can('user.show')
-        <a class="nav-link" href="{{Route('user.show')}}">
-          <i class="link-icon" data-feather="file"></i>
-          <span class="link-title">Usuarios</span>
-        </a>
-        @endcan
-      </li>
-      
-      <li class="nav-item nav-category">BOLETOS</li>
-      
-      @can('apartado.show')
         <li class="nav-item ">
-          <a href="{{Route('apartado.show')}}" class="nav-link">
-            <i class="link-icon" data-feather="calendar"></i>
-            <span class="link-title">Boletos Apartados</span>
+          <a href="{{Route('credencial.create')}}" class="nav-link">
+            <i class="link-icon" data-feather="file-plus"></i>
+            <span class="link-title">Agregar credenciales</span>
           </a>
-        </li>    
-      @endcan
-
-      @can('pagado.show')
-        <li class="nav-item ">
-          <a href="{{Route('pagado.show')}}" class="nav-link">
-            <i class="link-icon" data-feather="calendar"></i>
-            <span class="link-title">Boletos Pagados</span>
-          </a>
-        </li>    
-      @endcan
-      
+        </li>
     </ul>
   </div>
 </nav>

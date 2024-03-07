@@ -11,55 +11,40 @@ $(function() {
   //});
   $(function() {
     // validate signup form on keyup and submit
-    $("#signupForm").validate({
+    $("#usuarios").validate({
       rules: {
-        name: {
-          required: true,
-          minlength: 3
+        nombre: {
+          required: true
         },
-        email: {
+        correo: {
           required: true,
           email: true
         },
-        age_select: {
-          required: true
-        },
-        gender_radio: {
-          required: true
-        },
-        skill_check: {
-          required: true
-        },
-        password: {
+        contraseña: {
           required: true,
           minlength: 5
         },
-        confirm_password: {
+        confirmar_contraseña: {
           required: true,
-          minlength: 5,
-          equalTo: "#password"
-        },
-        terms_agree: "required"
+          equalTo: "#contraseña"
+        }
       },
       messages: {
-        name: {
-          required: "Please enter a name",
-          minlength: "Name must consist of at least 3 characters"
+        nombre: {
+          required: "Por favor introduce un nombre"
         },
-        email: "Please enter a valid email address",
-        age_select: "Please select your age",
-        skill_check: "Please select your skills",
-        gender_radio: "Please select your gender",
-        password: {
-          required: "Please provide a password",
-          minlength: "Your password must be at least 5 characters long"
+        correo: {
+          required: "Por favor introduce un correo",
+          email: "Por favor introduce un correo valido"
         },
-        confirm_password: {
-          required: "Please confirm your password",
-          minlength: "Your password must be at least 5 characters long",
-          equalTo: "Please enter the same password as above"
+        contraseña: {
+          required: "Por favor introduce una contraseña",
+          minlength: "Tu contraseña debe tener mas de 7 caracteres"
         },
-        terms_agree: "Please agree to terms and conditions"
+        confirmar_contraseña: {
+          required: "Por favor confirma la contraseña",
+          equalTo: "Por favor ingrese la misma contraseña que arriba"
+        }
       },
       errorPlacement: function(error, element) {
         error.addClass( "invalid-feedback" );
@@ -89,7 +74,7 @@ $(function() {
       }
     });
 
-    $("#prueba").validate({
+    $("#credenciale").validate({
       rules: {
         numero: {
           required: true,

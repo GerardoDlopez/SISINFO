@@ -19,58 +19,62 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Datos</h4>
-            <form id="signupForm">
+            <form id="credenciales" method="POST" action="{{Route('credencial.store')}}" >
+              @csrf
               <div class="mb-3">
-                <label for="name" class="form-label">Nombre</label>
-                <input id="name" class="form-control" name="name" type="text">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input id="nombre" class="form-control" name="nombre" type="text">
               </div>
               <div class="mb-3">
-                <label for="name" class="form-label">Apellido Paterno</label>
-                <input id="name" class="form-control" name="name" type="text">
+                <label for="apellido_pat" class="form-label">Apellido Paterno</label>
+                <input id="apellido_pat" class="form-control" name="apellido_pat" type="text">
               </div>
               <div class="mb-3">
-                <label for="name" class="form-label">Apellido Materno</label>
-                <input id="name" class="form-control" name="name" type="text">
+                <label for="apellido_mat" class="form-label">Apellido Materno</label>
+                <input id="apellido_mat" class="form-control" name="apellido_mat" type="text">
               </div>
               <div class="mb-3">
-                <label for="name" class="form-label">Edad</label>
-                <input id="name" class="form-control" name="name" type="text">
+                <label for="edad" class="form-label">Edad</label>
+                <input id="edad" class="form-control" name="edad" type="text">
               </div>
               <div class="mb-3">
-                <label for="name" class="form-label">Domicilio</label>
-                <input id="name" class="form-control" name="name" type="text">
+                <label for="domicilio" class="form-label">Domicilio</label>
+                <input id="domicilio" class="form-control" name="domicilio" type="text">
               </div>
               <div class="mb-3">
-                <label for="name" class="form-label">Clave Elector</label>
-                <input id="name" class="form-control" name="name" type="text">
+                <label for="clave_elec" class="form-label">Clave Elector</label>
+                <input id="clave_elec" class="form-control" name="clave_elec" type="text">
               </div>
               <div class="mb-3">
-                <label for="name" class="form-label">Curp</label>
-                <input id="name" class="form-control" name="name" type="text">
-              </div>
-
-              <div class="input-group flatpickr mb-3" id="flatpickr-date">
-                <input type="text" class="form-control flatpickr-input" placeholder="Select date" data-input="" readonly="readonly">
-                <span class="input-group-text input-group-addon" data-toggle=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                <label for="curp" class="form-label">Curp</label>
+                <input id="curp" class="form-control" name="curp" type="text">
               </div>
 
               <div class="mb-3">
-                <label class="form-label">Genero</label>
+                <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                <div class="input-group flatpickr" id="flatpickr-date">
+                  <input type="text" class="form-control flatpickr-input" placeholder="Select date" data-input="" readonly="readonly" name="fecha_nacimiento">
+                  <span class="input-group-text input-group-addon" data-toggle=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label" for="genero">Genero</label>
                 <div>
                   <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input" name="gender_radio" id="gender1">
+                    <input type="radio" class="form-check-input" name="genero" id="gender1" value="H">
                     <label class="form-check-label" for="gender1">
                       H
                     </label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input" name="gender_radio" id="gender2">
+                    <input type="radio" class="form-check-input" name="genero" id="gender2" value="M">
                     <label class="form-check-label" for="gender2">
                       M
                     </label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input" name="gender_radio" id="gender3">
+                    <input type="radio" class="form-check-input" name="genero" id="gender3" value="otro">
                     <label class="form-check-label" for="gender3">
                       Other
                     </label>
@@ -78,12 +82,12 @@
                 </div>
               </div>
               <div class="mb-3">
-                <label for="name" class="form-label">Lider</label>
-                <input id="name" class="form-control" name="name" type="text">
-              </div>
-              <div class="mb-3">
-                <label for="name" class="form-label">Edad</label>
-                <input id="name" class="form-control" name="name" type="text">
+                <label for="id_usuario" class="form-label">Lider</label>
+                <select id="id_usuario" class="form-select" name="id_usuario" type="text">
+                  @foreach ($users as $user)
+                    <option value="{{$user->id}}">{{$user->name}}</option>                      
+                  @endforeach
+                </select>
               </div>
               <input class="btn btn-primary" type="submit" value="Submit">
             </form>

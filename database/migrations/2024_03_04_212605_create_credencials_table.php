@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //Schema::create('votantes', function (Blueprint $table) {
-        //    $table->id();
-        //    $table->timestamps();
-        //});
+        Schema::create('credencials', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('votantes');
+        Schema::dropIfExists('credencials');
     }
 };
