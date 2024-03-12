@@ -24,6 +24,7 @@ class UsuarioController extends Controller
         $user = new User();
         $user->name=$request->nombre;
         $user->email=$request->correo;
+        $user->telefono=$request->telefono;
         $user->password = Hash::make($request->contraseña);
         $user->save();
 
@@ -51,7 +52,7 @@ class UsuarioController extends Controller
         ];
         if (!empty($request->contraseña)) {
             $data +=[
-                'password' => Hash::make($request->password),
+                'password' => Hash::make($request->contraseña),
             ];
         }
         $user->update($data);

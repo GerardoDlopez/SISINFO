@@ -6,21 +6,21 @@
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img class="wd-30 ht-30 rounded-circle" src="{{ url('https://via.placeholder.com/30x30') }}" alt="profile">
+            <span >{{auth()->user()->name}}</span>
           </a>
-          <div class="dropdown-menu p-0" style="background: #0C1427" aria-labelledby="profileDropdown">
+          <div class="dropdown-menu p-0" aria-labelledby="profileDropdown">
             <div class="d-flex flex-column align-items-center border-bottom px-5 py-3">
               <div class="mb-3">
-                <img class="wd-80 ht-80 rounded-circle" src="{{ url('https://via.placeholder.com/80x80') }}" alt="">
+                <span >{{auth()->user()->name}}</span>
               </div>
               <div class="text-center">
               </div>
             </div>
             <ul class="list-unstyled p-1">
               <li class="text-center">
-                <form action="" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-primary btn-icon"><i class="btn-icon-prepend " data-feather="log-out"></i></button>
+                <form action="{{ Route('logout') }}" method="POST">
+                  @csrf
+                  <button class="dropdown-item" href="auth-logout.html"><i class="mdi mdi-logout font-size-16 align-middle me-1"></i> Logout</button>
                 </form>
               </li>
             </ul>

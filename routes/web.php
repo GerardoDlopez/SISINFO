@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\FiltroController;
 use App\Http\Controllers\UsuarioController;
-use App\Http\Controllers\CredencialController;
+use App\Http\Controllers\PromovidoController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -14,27 +16,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('logueo/login');
-});
 
 
-Route::controller(CredencialController::class)->group(function(){
-    Route::get('/credenciales_read','credencial_read')->name('credencial.read');
-    Route::get('/credenciales_create','credencial_create')->name('credencial.create');
-    Route::post('/credenciales_create','credencial_store')->name('credencial.store');
-    Route::get('/credenciales_edit/{credencial}','credencial_edit')->name('credencial.edit');
-    Route::put('/credenciales_update/{credencial}','credencial_update')->name('credencial.update');
-    Route::delete('/credenciales_delete/{credencial}','credencial_delete')->name('credencial.delete');
+Route::controller(PromovidoController::class)->group(function(){
+    Route::get('/ver_promovidos','promovido_read')->name('promovido.read')->middleware('can:ver-promovidos','auth');
+    Route::get('/añadir_promovido','promovido_create')->name('promovido.create')->middleware('can:agregar-promovidos','auth');
+    Route::post('/promovido_store','promovido_store')->name('promovido.store')->middleware('can:agregar-promovidos','auth');
+    Route::get('/editar_promovido/{promovido}','promovido_edit')->name('promovido.edit')->middleware('can:actualizar-promovidos','auth');
+    Route::put('/actualizar_promovido/{promovido}','promovido_update')->name('promovido.update')->middleware('can:actualizar-promovidos','auth');
+    Route::delete('/eliminar_promovido/{promovido}','promovido_delete')->name('promovido.delete')->middleware('can:eliminar-promovidos','auth');
 });
 
 Route::controller(UsuarioController::class)->group(function(){
-    Route::get('/usuarios_read','user_read')->name('user.read');
-    Route::get('/usuarios_create','user_create')->name('user.create');
-    Route::post('/usuarios_store','user_store')->name('user.store');
-    Route::get('/usuarios_edit/{id}','user_edit')->name('user.edit');
-    Route::put('/usuarios_update/{user}','user_update')->name('user.update');
-    Route::delete('/usuarios_delete/{user}','user_delete')->name('user.delete');
+    Route::get('/ver_usuarios','user_read')->name('user.read')->middleware('can:ver-usuarios','auth');
+    Route::get('/crear_usuarios','user_create')->name('user.create')->middleware('can:agregar-usuarios','auth');
+    Route::post('/usuarios_store','user_store')->name('user.store')->middleware('can:agregar-usuarios','auth');
+    Route::get('/editar_usuarios/{id}','user_edit')->name('user.edit')->middleware('can:actualizar-usuarios','auth');
+    Route::put('/actualizar_usuario/{user}','user_update')->name('user.update')->middleware('can:actualizar-usuarios','auth');
+    Route::delete('/eliminar_usuario/{user}','user_delete')->name('user.delete')->middleware('can:eliminar-usuarios','auth');
     
-    Route::get('/lideres_role','lideres_role')->name('lideres.role');
+});
+
+Route::controller(LoginController::class)->group(function(){
+    Route::get('/','login')->name('login');
+    Route::post('/login_store','login_store')->name('login_store');
+    Route::post('/logout','logout')->name('logout');
+});
+
+Route::controller(FiltroController::class)->group(function(){
+    Route::get('/ver_promovidos/filtro','filtro')->name('filtro');
 });

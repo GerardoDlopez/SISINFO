@@ -40,14 +40,18 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <form action="{{route('user.edit',$user->id)}}" style="display:inline;" >
-                                                <button href="" class="btn btn-success  btn-xs" ype="submit">Editar</button>
-                                            </form>
-                                            <form action="{{route('user.delete', $user)}}" style="display:inline;" method="POST">
-                                                @csrf
-                                                @method('delete')
-                                                <button href="" class="btn btn-danger  btn-xs" type="submit">Eliminar</button>
-                                            </form>
+                                            @can('actualizar-usuarios')    
+                                                <form action="{{route('user.edit',$user->id)}}" style="display:inline;" >
+                                                    <button href="" class="btn btn-success  btn-xs" ype="submit">Editar</button>
+                                                </form>
+                                            @endcan
+                                            @can('eliminar-usuarios')    
+                                                <form action="{{route('user.delete', $user)}}" style="display:inline;" method="POST">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button href="" class="btn btn-danger  btn-xs" type="submit">Eliminar</button>
+                                                </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

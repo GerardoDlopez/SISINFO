@@ -31,6 +31,12 @@
                 <label for="correo" class="form-label">Correo</label>
                 <input id="correo" class="form-control" name="correo" type="text">
               </div>
+
+              
+              <div class="mb-3">
+                <label for="telefono" class="form-label">Telefono</label>
+                <input id="telefono" class="form-control" name="telefono" type="text">
+              </div>
               
               <div class="mb-3">
                 <label for="contraseña" class="form-label">Contraseña</label>
