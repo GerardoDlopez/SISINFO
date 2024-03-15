@@ -6,6 +6,9 @@ $(function() {
 
   $(function() {
     $('#dataTableExample').DataTable({
+      paging: false, // Desactiva la paginación
+      searching: false, // Desactiva el buscador
+      info: false,
       responsive: true,
       autoWidth: false,
       "language": {

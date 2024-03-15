@@ -20,7 +20,7 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Datos</h4>
-            <form id="usuarios" action="{{Route('user.store')}}" method="POST">
+            <form id="lideres" action="{{Route('user.store')}}" method="POST">
               @csrf
               <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
@@ -35,7 +35,7 @@
               
               <div class="mb-3">
                 <label for="telefono" class="form-label">Telefono</label>
-                <input id="telefono" class="form-control" name="telefono" type="text">
+                <input id="telefono" class="form-control" name="telefono" type="text" maxlength="10">
               </div>
               
               <div class="mb-3">
@@ -72,10 +72,14 @@
   <script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
+  
+  <script src="{{ asset('assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
   <script src="{{ asset('assets/js/form-validation.js') }}"></script>
   <script src="{{ asset('assets/js/bootstrap-maxlength.js') }}"></script>
   <script src="{{ asset('assets/js/select2.js') }}"></script>
+
+  <script src="{{ asset('assets/js/bootstrap-maxlength.js') }}"></script>
 @endpush

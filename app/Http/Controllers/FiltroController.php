@@ -32,7 +32,7 @@ class FiltroController extends Controller
                 $query->where('nombre', $request->input('observacion'));}
             );
          })
-         ->get();
+         ->paginate(10);
 
         $observaciones = Observacion::all();
         $usuarios = User::all();

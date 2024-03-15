@@ -30,7 +30,7 @@ class UsuarioController extends Controller
 
         $user->syncRoles($request->roles);
 
-        return redirect()->route('user.create')->with('agregar','ok');
+        return redirect()->route('user.read')->with('agregar','ok');
     }
 
     public function user_edit($user_id){
@@ -49,6 +49,7 @@ class UsuarioController extends Controller
         $data =[
             'name' => $request->nombre,
             'email' => $request->correo,
+            'telefono' => $request->telefono
         ];
         if (!empty($request->contraseña)) {
             $data +=[
@@ -59,12 +60,12 @@ class UsuarioController extends Controller
 
         $user->syncRoles($request->roles);
 
-        return redirect()->route('user.read')->with('agregar','ok');
+        return redirect()->route('user.read')->with('actualizar','ok');
     }
 
     public function user_delete(User $user){
         $user->delete();
 
-        return redirect()->route('user.read');
+        return redirect()->route('user.read')->with('eliminar','ok');
     }
 }

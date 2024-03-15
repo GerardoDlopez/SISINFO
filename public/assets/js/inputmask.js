@@ -5,6 +5,5 @@
   'use strict';
 
   // initializing inputmask
-  $(":input").inputmask();
-
+  $("#fecha_captura").inputmask();
 })(jQuery);

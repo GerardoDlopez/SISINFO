@@ -2,8 +2,11 @@
     <a href="#" class="sidebar-toggler">
       <i data-feather="menu"></i>
     </a>
+
     <div class="navbar-content">
+      <img src="{{ asset('assets/imgs/logo.png') }}"  alt="" style="text-align: center; margin: 5px">
       <ul class="navbar-nav">
+        
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span >{{auth()->user()->name}}</span>

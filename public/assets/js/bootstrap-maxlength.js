@@ -4,32 +4,33 @@
 $(function() {
   'use strict';
 
-  $('#defaultconfig').maxlength({
-    warningClass: "badge mt-1 bg-success",
-    limitReachedClass: "badge mt-1 bg-danger"
+  $('#seccion_elec').maxlength({
+    warningClass: "badge mt-1 bg-danger",
+    limitReachedClass: "badge mt-1 bg-success"
   });
 
-  $('#defaultconfig-2').maxlength({
-    alwaysShow: true,
-    threshold: 20,
-    warningClass: "badge mt-1 bg-success",
-    limitReachedClass: "badge mt-1 bg-danger"
+  $('#tel_celular').maxlength({
+    warningClass: "badge mt-1 bg-danger",
+    limitReachedClass: "badge mt-1 bg-success"
   });
 
-  $('#defaultconfig-3').maxlength({
-    alwaysShow: true,
-    threshold: 10,
-    warningClass: "badge mt-1 bg-success",
-    limitReachedClass: "badge mt-1 bg-danger",
-    separator: ' of ',
-    preText: 'You have ',
-    postText: ' chars remaining.',
-    validate: true
+  $('#tel_fijo').maxlength({
+    warningClass: "badge mt-1 bg-danger",
+    limitReachedClass: "badge mt-1 bg-success"
   });
 
-  $('#maxlength-textarea').maxlength({
-    alwaysShow: true,
-    warningClass: "badge mt-1 bg-success",
-    limitReachedClass: "badge mt-1 bg-danger"
+  $('#clave_elec').maxlength({
+    warningClass: "badge mt-1 bg-danger",
+    limitReachedClass: "badge mt-1 bg-success"
+  });
+
+  $('#curp').maxlength({
+    warningClass: "badge mt-1 bg-danger",
+    limitReachedClass: "badge mt-1 bg-success"
+  });
+
+  $('#telefono').maxlength({
+    warningClass: "badge mt-1 bg-danger",
+    limitReachedClass: "badge mt-1 bg-success"
   });
 });

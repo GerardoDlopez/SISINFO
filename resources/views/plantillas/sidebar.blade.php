@@ -28,20 +28,26 @@
             </a>
           </li>
         @endcan
+        @can('ver-promovidos|agregar-promovidos')
+            
+        @endcan
         <li  class="nav-item nav-category">Promovidos</li>
-        <li class="nav-item ">
-          <a href="{{Route('promovido.read')}}" class="nav-link">
-            <i class="link-icon" data-feather="file"></i>
-            <span class="link-title">Lista de promovidos</span>
-          </a>
-        </li>
-
+        @can('ver-promovidos')    
+          <li class="nav-item ">
+            <a href="{{Route('promovido.read')}}" class="nav-link">
+              <i class="link-icon" data-feather="file"></i>
+              <span class="link-title">Lista de promovidos</span>
+            </a>
+          </li>
+        @endcan
+        @can('agregar-promovidos')    
         <li class="nav-item ">
           <a href="{{Route('promovido.create')}}" class="nav-link">
             <i class="link-icon" data-feather="file-plus"></i>
             <span class="link-title">Agregar promovido</span>
           </a>
         </li>
+        @endcan
     </ul>
   </div>
 </nav>

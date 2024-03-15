@@ -2,9 +2,9 @@
 
 @push('plugin-styles')
     <link href="{{ asset('assets/plugins/DataTables/dataTables.bootstrap5.css') }}" rel="stylesheet" />
-    
     <link href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -126,11 +126,12 @@
                     </div>
                     <div class="col"></div>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive row">
                     <table  id="dataTableExample" class="table table-responsive">
                         <thead>
                             <tr>
-                                <th>Sección electoral</th>
+                                <th>id</th>
+                                <th>Sección</th>
                                 <th>Nombre</th>
                                 <th>Apellido Paterno</th>
                                 <th>Apellido Materno</th>
@@ -155,6 +156,7 @@
                         <tbody>
                             @foreach ($promovidos as $promovido)
                                 <tr>
+                                    <td>{{$promovido->id}}</td>
                                     <td>{{$promovido->seccion_elec}}</td>
                                     <td>{{$promovido->nombre}}</td>
                                     <td>{{$promovido->apellido_pat}}</td>
@@ -185,7 +187,7 @@
                                             </form>
                                         @endcan
                                         @can('eliminar-promovidos')
-                                            <form action="{{route('promovido.delete', $promovido)}}" style="display:inline;" method="POST">
+                                            <form action="{{route('promovido.delete', $promovido)}}" style="display:inline;" method="POST" onsubmit="submitForm(event,'{{$promovido->id}}')" id="{{$promovido->id}}">
                                                 @csrf
                                                 @method('delete')
                                                 <button href="" class="btn btn-danger  btn-xs" type="submit">Eliminar</button>
@@ -196,6 +198,45 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="pagination row m-3">
+                    <div class="col">
+                        <span>
+                            {{ __('Página') }} {{ $promovidos->currentPage() }} {{ __('de') }} {{ $promovidos->lastPage() }}
+                        </span>
+                    </div>
+                    <div class="col" style="text-align: right">
+                            <ul class="pagination" style="float: right;">
+                                <li class="page-item">
+                                    @if ($promovidos->currentPage() > 1)
+                                        <a href="{{ $promovidos->withQueryString()->url(1) }}" class="page-link">{{('<<') }}</a>
+                                    @endif
+                                </li>
+                                @if ($promovidos->previousPageUrl())
+                                    <li class="page-item">
+                                        <a href="{{ $promovidos->withQueryString()->previousPageUrl() }}" class="page-link" rel="prev">&laquo; {{ __('') }}</a>
+                                    </li>
+                                @endif
+                                @php
+                                    $currentPage = $promovidos->currentPage();
+                                @endphp
+                            
+                                <li class="page-item active">
+                                    <span class="page-link">{{ $currentPage }}</span>
+                                </li>
+                                
+                                @if ($promovidos->nextPageUrl())
+                                    <li class="page-item">
+                                        <a href="{{ $promovidos->withQueryString()->nextPageUrl() }}" class="page-link" rel="next">{{ __('') }} &raquo;</a>
+                                    </li>
+                                @endif
+                                <li class="page-item">
+                                    @if ($promovidos->currentPage() < $promovidos->lastPage())
+                                        <a href="{{ $promovidos->withQueryString()->url($promovidos->lastPage()) }}" class="page-link">{{('>>') }}</a>
+                                    @endif
+                                </li>
+                            </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -210,13 +251,15 @@
 <script src="{{ asset('assets/plugins/DataTables/dataTables.bootstrap5.js') }}"></script>
 <script src="{{ asset('assets/plugins/DataTables/dataTables.responsive.js') }}"></script>
 <script src="{{ asset('assets/plugins/DataTables/responsive.bootstrap5.js') }}"></script>
+
+<script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
     <script src="{{ asset('assets/js/data-table.js') }}"></script>
 
+    <!--Mostra filtro-->
     <script>
-        
         function filtro() {
             var filtro = document.getElementById("filtro");
             var table = document.getElementById("lista")
@@ -230,4 +273,56 @@
             }
         }
     </script>
+    <!--END-->
+
+    <!--Alerta para confirmar eliminación-->
+    <script>
+        function submitForm(event,id){
+            event.preventDefault();
+
+            Swal.fire({
+                title: 'estas seguro que deseas eliminar el registro ?',
+                text: "no podras revertir esto!",
+                icon: 'Cuidado',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, Eliminar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    elemento= document.getElementById(id);
+                    elemento.submit();
+                }
+            })
+
+        }
+    </script>
+    <!--END SWEET ALERTS-->
+
+    <!--Alerta de eliminación-->
+    @if (session('eliminar')=='ok')
+    <script>
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Registro Eliminado',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    </script>
+    @endif
+    <!--END-->
+    <!--Alerta de actualización-->
+    @if (session('actualizar')=='ok')
+        <script>
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Registro editado con exito',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        </script>
+    @endif
+    <!--END-->
 @endpush

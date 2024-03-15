@@ -8,12 +8,14 @@ use App\Models\Promovido;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class PromovidoController extends Controller
 {
     
     public function promovido_read(){
-        $promovidos = Promovido::all();
+        $promovidos = Promovido::orderBy('id', 'desc')->paginate(10);
         $observaciones = Observacion::all();
         $usuarios = User::all();
         $ocupaciones = Ocupacion::all();
@@ -57,6 +59,14 @@ class PromovidoController extends Controller
     }
 
     public function promovido_store(Request $request ){
+        $validated = $request->validate([
+            'curp' =>['unique:promovidos,curp'],
+            'clave_elec' =>['unique:promovidos,clave_elec']
+        ], $messages = [
+            'curp.unique' => 'La curp ya existe!',
+            'clave_elec.unique' => 'La clave de elector ya existe!',
+        ]);
+
         $promovido = new Promovido();
         $promovido->seccion_elec=$request->seccion_elec;
         $promovido->nombre=$request->nombre;
@@ -72,11 +82,12 @@ class PromovidoController extends Controller
         $promovido->facebook=$request->facebook;
         $promovido->id_ocupacion=$request->id_ocupacion;
         $promovido->escolaridad=$request->escolaridad;
-        $promovido->fecha_captura=$request->fecha_captura;
+        $fecha_captura = Carbon::createFromFormat('d/m/Y', $request->fecha_captura);
+        $fecha_captura = $fecha_captura->format('Y-m-d');
+        $promovido->fecha_captura=$fecha_captura;
         $promovido->genero=$request->genero;
         $promovido->edad=$request->edad;
         $promovido->id_usuario=$request->id_usuario;
-        
         
         $promovido->save();
 
@@ -90,11 +101,36 @@ class PromovidoController extends Controller
 
     public function promovido_edit(Promovido $promovido){
         $users = User::all();
+        $ocupaciones = Ocupacion::all();
+        $observaciones = Observacion::all();
         $genero = $promovido->genero;
-        return view('promovidos.update',compact('promovido','users','genero'));
+        $observacion_selected = $promovido->observaciones->pluck('nombre','nombre')->all();
+        $fecha_captura = Carbon::createFromFormat('Y-m-d', $promovido->fecha_captura);
+        $fecha_captura = $fecha_captura->format('d/m/Y');
+        return view('promovidos.update',compact('promovido','users','genero', 'ocupaciones', 'observaciones', 'observacion_selected','fecha_captura'));
     }
     
     public function promovido_update(Promovido $promovido, Request $request){
+        if ($promovido->curp != $request->curp) {
+            
+            $validated = $request->validate([
+                'curp' =>['unique:promovidos,curp'],
+            ], $messages = [
+                'curp.unique' => 'La curp ya existe!',
+            ]);
+        }
+
+        if ($promovido->clave_elec != $request->clave_elec) {
+            $validated = $request->validate([
+                'clave_elec' =>['unique:promovidos,clave_elec']
+            ], $messages = [
+                'clave_elec.unique' => 'La clave de elector ya existe!',
+            ]);
+        }
+
+        $fecha_captura = Carbon::createFromFormat('d/m/Y', $request->fecha_captura);
+        $fecha_captura = $fecha_captura->format('Y-m-d');
+        
         $data =[
             'seccion_elec' => $request->seccion_elec,
             'nombre' => $request->nombre,
@@ -108,14 +144,14 @@ class PromovidoController extends Controller
             'tel_fijo' => $request->tel_fijo,
             'correo' => $request->correo,
             'facebook' => $request->facebook,
-            'ocupacion' => $request->ocupacion,
+            'id_ocupacion' => $request->ocupacion,
             'escolaridad' => $request->escolaridad,
-            'observaciones' => $request->observaciones,
-            'fecha_captura' => $request->fecha_captura,
+            'fecha_captura' => $fecha_captura,
             'genero' => $request->genero,
             'edad' => $request->edad,
             'id_usuario' => $request->id_usuario,
         ];
+        $promovido->observaciones()->sync($request->observaciones);
         $promovido->update($data);
 
         return redirect()->route('promovido.read')->with('actualizar','ok');

@@ -33,7 +33,7 @@
       
         @stack('style')
       </head>
-      <body class="sidebar-dark header-dark">
+      <body class="">
         <script src="{{ asset('assets/js/spinner.js') }}"></script>
 
         <div class="main-wrapper" id="app">

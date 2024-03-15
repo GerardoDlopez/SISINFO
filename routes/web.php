@@ -44,5 +44,5 @@ Route::controller(LoginController::class)->group(function(){
 });
 
 Route::controller(FiltroController::class)->group(function(){
-    Route::get('/ver_promovidos/filtro','filtro')->name('filtro');
+    Route::get('/ver_promovidos/filtro','filtro')->name('filtro')->middleware('can:ver-promovidos','auth');
 });
