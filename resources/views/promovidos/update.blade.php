@@ -80,7 +80,7 @@
                 <label for="ocupacion" class="form-label">Ocupación</label>
                 <select id="ocupacion" name="ocupacion" class="form-select">
                   @foreach ($ocupaciones as $ocupacion)
-                  <option value="{{$ocupacion->id}}" {{($ocupacion->id == $promovido->ocupacion) ? 'selected' : 'true' }}>{{$ocupacion->nombre}}</option>
+                  <option value="{{$ocupacion->id}}" {{($ocupacion->id == $promovido->id_ocupacion) ? 'selected' : '' }}>{{$ocupacion->nombre}}</option>
                   @endforeach
                 </select>
               </div>

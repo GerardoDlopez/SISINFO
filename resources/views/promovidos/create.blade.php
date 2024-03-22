@@ -8,6 +8,12 @@
 
 @section('content')
 
+<style>
+  .hidden {
+      display: none;
+  }
+</style>
+
 <div class="row">
     <div class="card">
         <div class="card-body">
@@ -75,9 +81,15 @@
                   @foreach ($ocupaciones as $ocupacion)
                     <option value="{{$ocupacion->id}}" {{($ocupacion->nombre == 'Ninguna') ? 'selected' : 'true' }}>{{$ocupacion->nombre}}</option>                      
                   @endforeach
+                    <option id="mostrar_ocupacion">Agregar nueva ocupacion</option>
                 </select>
               </div>
               
+              <div id="nueva_ocupacion" class="hidden" style="margin-left: 10%">
+                <label for="inputOcupacion">Agrega una nueva ocupación</label>
+                <input type="text" id="inputOcupacion" class="form-control" name="inputOcupacion" >
+              </div>
+
               <div class="mb-3">
                 <label for="escolaridad" class="form-label">Escolaridad</label>
                 <select name="escolaridad"  class="form-select">
@@ -193,4 +205,16 @@
   @endif
   <!--END SWEET ALERTS-->
 
+    <!--mostrar input para agregar una nueva -->
+    <script>
+     document.getElementById('ocupacion').addEventListener('change', function(){
+        var opcionMostrar = document.getElementById('mostrar_ocupacion');
+        var inputDiv = document.getElementById('nueva_ocupacion');
+        if (opcionMostrar.selected) {
+            inputDiv.classList.remove('hidden');
+        } else {
+            inputDiv.classList.add('hidden');
+        }
+      });
+    </script>
 @endpush

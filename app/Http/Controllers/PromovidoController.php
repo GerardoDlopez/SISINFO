@@ -65,6 +65,7 @@ class PromovidoController extends Controller
     }
 
     public function promovido_store(Request $request ){
+        
         $validated = $request->validate([
             'curp' =>['unique:promovidos,curp'],
             'clave_elec' =>['unique:promovidos,clave_elec']
@@ -73,6 +74,12 @@ class PromovidoController extends Controller
             'clave_elec.unique' => 'La clave de elector ya existe!',
         ]);
 
+        if($request->inputOcupacion){
+            $ocupacion = new Ocupacion();
+            $ocupacion->nombre = $request->inputOcupacion;
+            $ocupacion->save();
+            $request->merge(['id_ocupacion' => $ocupacion->id]);
+        }
         $promovido = new Promovido();
         $promovido->seccion_elec=$request->seccion_elec;
         $promovido->nombre=$request->nombre;
