@@ -20,6 +20,9 @@ class PromovidoController extends Controller
         $usuarios = User::all();
         $ocupaciones = Ocupacion::all();
 
+        $allpromovidos_count = $promovidos->total();
+        $filtrados_count = $promovidos->total();
+
         $lider_selected = '';
         $observacion_selected = '';
         $ocupacion_selected = '';
@@ -48,6 +51,9 @@ class PromovidoController extends Controller
             'genero',
             'edad',
             'observacion',
+
+            'allpromovidos_count',
+            'filtrados_count'
         ));
     }
 

@@ -1,5 +1,11 @@
 @extends('plantillas.master2')
 
+@push('style')
+<link href="{{ asset('css/login.css') }}" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+@endpush
+
 @section('content')
 <div class="page-content d-flex align-items-center justify-content-center">
 
@@ -8,29 +14,30 @@
       <div class="card">
         <div class="card-body">
           <div class="row">
-            <div class="col ps-md-0">
-              <div class="auth-form-wrapper px-4 py-5" >
-                <div style="text-align: center">
-                  <div class="mb-5">
-                    <h1 class="" style="color: black">Hormigas 2024</h1>
-                  </div>
-                  <form class="forms-sample" method="POST" action="{{Route('login_store')}}">
-                  @csrf
-                  <div class="mb-3">
-                    <label for="userEmail" class="form-label">Correo Electronico</label>
-                    <input type="text" class="form-control" id="input-username" placeholder="Enter User Name" name="email">
-                  </div>
-                  <div class="mb-3">
-                    <label for="userPassword" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control pe-5" id="password-input" placeholder="Enter Password" name="password">
-                  </div>
-                  <div >
-                    <button class="btn btn-primary me-2 mb-2 mb-md-0">Login</button>
-                  </div>
-                  </form>
-                </div>
+            <div class="login-container">
+              <div class="logo">
+                  <img src="{{asset('assets/imgs/hormiga_logo.png')}}" alt="Logo de Hormigas 2024">
+                  <img src="{{asset('assets/imgs/logo_bgwhite.png')}}" alt="Logo de Hormigas 2024">
               </div>
-            </div>
+                <form class="login-form" action="{{Route('login_store')}}" method="post" id="login">
+                  @csrf
+                    <h2>HORMIGAS 2024</h2>
+                    <div class="input-group">
+                        <label for="email">Correo</label>
+                        <input type="text" id="email" name="email" required>
+                    </div>
+                    <div class="input-group input-password">
+                      <label for="password">Contraseña</label>
+                      <input type="password" id="password" name="password" required>
+                      <span class="toggle-password" id="togglePassword">
+                          <i class="fas fa-eye" id="eyeIcon"></i>
+                      </span>
+                  </div>
+                  <button type="submit">Ingresar</button>
+                </form>
+              </div>
+      
+          
           </div>
         </div>
       </div>
@@ -39,3 +46,12 @@
 
 </div>
 @endsection
+
+@push('plugin-scripts')
+  <script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+@endpush
+
+@push('custom-scripts')
+  <script src="{{asset('assets/js/login.js')}}"></script>
+  <script src="{{ asset('assets/js/form-validation.js') }}"></script>
+@endpush

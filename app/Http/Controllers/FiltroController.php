@@ -12,7 +12,9 @@ class FiltroController extends Controller
 {
     public function filtro(Request $request){
 
-        $promovidos = Promovido::query()->when($request->input('lider') !== null, function ($query) use ($request) { 
+
+
+      $promovidos = Promovido::query()->when($request->input('lider') !== null, function ($query) use ($request) { 
             $query->where('id_usuario', $request->input('lider'));
          })->when($request->input('seccion') !== null, function ($query) use ($request) { 
             $query->where('seccion_elec', $request->input('seccion'));
@@ -27,48 +29,53 @@ class FiltroController extends Controller
          })->when($request->input('edad') !== null, function ($query) use ($request) { 
             $query->where('edad', $request->input('edad'));
          })->when($request->input('observacion') !== null, function ($query) use ($request) { 
-            
+
             $query->wherehas('observaciones', function ($query) use ($request) {
                 $query->where('nombre', $request->input('observacion'));}
             );
-         })
-         ->paginate(10);
+         })->paginate(10);
 
-        $observaciones = Observacion::all();
-        $usuarios = User::all();
-        $ocupaciones = Ocupacion::all();
+      $allpromovidos_count = Promovido::count();
+      $filtrados_count = $promovidos->total();
 
-        $lider_selected = $request->lider;
-        $observacion_selected = $request->observacion;
-        $ocupacion_selected = $request->ocupacion;
+      $observaciones = Observacion::all();
+      $usuarios = User::all();
+      $ocupaciones = Ocupacion::all();
 
-        $seccion = $request->seccion;
-        $localidad = $request->localidad;
-        $ocupacion = $request->ocupacion;
-        $escolaridad = $request->escolaridad;
-        $genero = $request->genero;
-        $edad = $request->edad;
-        $observacion = $request->observacion;
+      $observacion_selected = $request->observacion;
+      $ocupacion_selected = $request->ocupacion;
+      $lider_selected = $request->lider;
 
-        $usuarios = User::all();
-        return view('promovidos.read',compact(
-            'promovidos',
-            'observaciones',
-            'ocupaciones',
+      $localidad = $request->localidad;
+      $seccion = $request->seccion;
+      $ocupacion = $request->ocupacion;
+      $escolaridad = $request->escolaridad;
+      $genero = $request->genero;
+      $edad = $request->edad;
+      $observacion = $request->observacion;
 
-            'lider_selected',
-            'observacion_selected',
-            'ocupacion_selected',
+      $usuarios = User::all();
+      return view('promovidos.read',compact(
+         'promovidos',
+         'observaciones',
+         'ocupaciones',
+
+         'lider_selected',
+         'observacion_selected',
+         'ocupacion_selected',
             
-            'usuarios',
-            'seccion',
-            'localidad',
-            'ocupacion',
-            'escolaridad',
-            'genero',
-            'edad',
-            'observacion',
-        ));
+         'usuarios',
+         'seccion',
+         'localidad',
+         'ocupacion',
+         'escolaridad',
+         'genero',
+         'edad',
+         'observacion',
+
+         'allpromovidos_count',
+         'filtrados_count'
+      ));
 
         
         

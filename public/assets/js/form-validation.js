@@ -11,6 +11,55 @@ $(function() {
   //});
   $(function() {
     // validate signup form on keyup and submit
+    $("#login").validate({
+      rules: {
+        email: {
+          required: true,
+          email: true
+        },
+        password: {
+          required: true,
+          minlength: 5
+        }
+      },
+      messages: {
+        email: {
+          required: "Por favor introduce un correo",
+          email: "Por favor introduce un correo valido"
+        },
+        password: {
+          required: "Por favor introduce una contraseña",
+          minlength: "Tu contraseña debe tener mas de 7 caracteres"
+        }
+      },
+      errorPlacement: function(error, element) {
+        error.addClass( "invalid-feedback" );
+
+        if (element.parent('.input-group').length) {
+          error.insertAfter(element.parent());
+        }
+        else if (element.prop('type') === 'radio' && element.parent('.radio-inline').length) {
+          error.insertAfter(element.parent().parent());
+        }
+        else if (element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
+          error.appendTo(element.parent().parent());
+        }
+        else {
+          error.insertAfter(element);
+        }
+      },
+      highlight: function(element, errorClass) {
+        if ($(element).prop('type') != 'checkbox' && $(element).prop('type') != 'radio') {
+          $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+        }
+      },
+      unhighlight: function(element, errorClass) {
+        if ($(element).prop('type') != 'checkbox' && $(element).prop('type') != 'radio') {
+          $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+        }
+      }
+    });
+
     $("#lideres").validate({
       rules: {
         nombre: {

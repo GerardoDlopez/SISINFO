@@ -119,12 +119,15 @@
                 <h6 class="card-title">Promovidos</h6>
                 <div class="row mb-3">
                     <div style="text-align: left" class="col">
-                        <a onclick="filtro()" class="btn btn-primary btn-icon-text"><i class="btn-icon-prepend" data-feather="settings"></i>Filtros</a>
+                        <a onclick="filtro()" class="btn btn-primary btn-icon-text"><i class="btn-icon-prepend" data-feather="settings"></i>Mostrar filltros</a>
+                        <a class="btn btn-primary btn-icon-text" href="{{Route('promovido.read')}}">Limpiar filtros</a>
                     </div>
                     <div style="text-align: center" class="col">
                         <a href="{{Route('promovido.create')}}" class="btn btn-success btn-icon-text" style="text-align: center"><i  class="btn-icon-prepend" data-feather="file-plus"></i>Agregar</a>
                     </div>
-                    <div class="col"></div>
+                    <div class="col" style="text-align: center">
+                        <label for="">{{$filtrados_count}} Promovidos filtrados de {{$allpromovidos_count}}</label>
+                    </div>
                 </div>
                 <div class="table-responsive row">
                     <table  id="dataTableExample" class="table table-responsive">
