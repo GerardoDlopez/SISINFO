@@ -65,6 +65,27 @@ class PromovidoController extends Controller
     }
 
     public function promovido_store(Request $request ){
+
+        // Extraer género y fecha de nacimiento de la clave de elector
+        $claveElector = $request->clave_elec;
+        // Obtener fecha de nacimiento
+        $dia = substr($claveElector, 10, 2);
+        $mes = substr($claveElector, 8, 2);
+        $anio = substr($claveElector, 6, 2);
+
+        // Validar año para personas nacidas después del 2000
+        if ($anio >= 0 && $anio <= 24) {
+            $fechaNacimiento = "20$anio-$mes-$dia"; // Para años desde 00 hasta 21
+        } else {
+            $fechaNacimiento = "19$anio-$mes-$dia"; // Para años anteriores a 2000
+        }
+        // Calcular edad
+        $fechaActual = date('Y-m-d');
+        $edad = date_diff(date_create($fechaNacimiento), date_create($fechaActual))->y;
+        // Determinar el género
+        $genero = strtoupper(substr($claveElector, 14, 1)); // Convertir a mayúsculas para uniformidad
+        dd($edad,$genero);
+
         
         $validated = $request->validate([
             'curp' =>['unique:promovidos,curp'],
@@ -80,35 +101,50 @@ class PromovidoController extends Controller
             $ocupacion->save();
             $request->merge(['id_ocupacion' => $ocupacion->id]);
         }
+        
         $promovido = new Promovido();
         $promovido->seccion_elec=$request->seccion_elec;
         $promovido->nombre=$request->nombre;
         $promovido->apellido_pat=$request->apellido_pat;
         $promovido->apellido_mat=$request->apellido_mat;
-        $promovido->domicilio=$request->domicilio;
-        $promovido->localidad=$request->localidad;
+
+        $promovido->localidad_y_domicilio=$request->localidad_y_domicilio;
+
         $promovido->clave_elec=$request->clave_elec;
-        $promovido->curp=$request->curp;
-        $promovido->tel_celular=$request->tel_celular;
-        $promovido->tel_fijo=$request->tel_fijo;
+        
+        //$promovido->curp=$request->curp;
+
+        $promovido->telefono=$request->telefono;
+        
+        //$promovido->tel_fijo=$request->tel_fijo;
+        
         $promovido->correo=$request->correo;
         $promovido->facebook=$request->facebook;
         $promovido->id_ocupacion=$request->id_ocupacion;
         $promovido->escolaridad=$request->escolaridad;
+
         $fecha_captura = Carbon::createFromFormat('d/m/Y', $request->fecha_captura);
         $fecha_captura = $fecha_captura->format('Y-m-d');
-        $promovido->fecha_captura=$fecha_captura;
-        $promovido->genero=$request->genero;
-        $promovido->edad=$request->edad;
-        $promovido->id_usuario=$request->id_usuario;
         
-        $promovido->save();
-
+        //$promovido->genero=$request->genero;
+        //$promovido->edad=$request->edad;
+        
         if ($request->observaciones) {
             foreach ($request->observaciones as $observacion) {
                 $promovido->observaciones()->attach($observacion);
             }
         }
+        
+        $promovido->id_usuario=$request->id_usuario;
+        
+        $promovido->fecha_captura=$fecha_captura;
+
+        
+
+        
+        $promovido->save();
+
+        
         return redirect()->route('promovido.create')->with('agregar','ok');
     }
 

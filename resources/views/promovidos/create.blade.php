@@ -164,7 +164,7 @@
 @endsection
 
 @push('plugin-scripts')
-  <script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+  <!--<script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>-->
   <script src="{{ asset('assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
