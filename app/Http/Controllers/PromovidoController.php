@@ -185,14 +185,11 @@ class PromovidoController extends Controller
             'localidad_y_domicilio' => $request->localidad_y_domicilio,
             'clave_elec' => $request->clave_elec,
             'telefono' => $request->telefono,
-            'tel_fijo' => $request->tel_fijo,
             'correo' => $request->correo,
             'facebook' => $request->facebook,
             'id_ocupacion' => $request->ocupacion,
             'escolaridad' => $request->escolaridad,
             'fecha_captura' => $fecha_captura,
-            'genero' => $request->genero,
-            'edad' => $request->edad,
             'id_usuario' => $request->id_usuario,
         ];
         $promovido->observaciones()->sync($request->observaciones);
