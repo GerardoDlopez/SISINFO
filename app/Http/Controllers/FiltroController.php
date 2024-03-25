@@ -46,7 +46,7 @@ class FiltroController extends Controller
       $ocupacion_selected = $request->ocupacion;
       $lider_selected = $request->lider;
 
-      $localidad = $request->localidad;
+      $localidad_y_domicilio = $request->localidad_y_domicilio;
       $seccion = $request->seccion;
       $ocupacion = $request->ocupacion;
       $escolaridad = $request->escolaridad;
@@ -66,7 +66,7 @@ class FiltroController extends Controller
             
          'usuarios',
          'seccion',
-         'localidad',
+         'localidad_y_domicilio',
          'ocupacion',
          'escolaridad',
          'genero',

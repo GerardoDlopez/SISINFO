@@ -35,8 +35,8 @@
 
                         <div class="row">
                             <div class="mb-3 col">
-                                <label for="" class="form-label">Localidades</label>
-                                <input type="text" class="form-control"  name="localidad" name="localidad" value="{{$localidad}}">
+                                <label for="" class="form-label">Localidadad y domicilio</label>
+                                <input type="text" class="form-control"  name="localidad" name="localidad" value="{{$localidad_y_domicilio}}">
                             </div>
 
                             <div class="mb-3 col">
@@ -105,8 +105,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-grid gap-1">
-                        <button class="btn btn-success btn-sm" type="submit">OK</button>
+                    <div class="d-grid gap-1 mb-3">
+                        <button class="btn btn-success btn-sm" type="submit">FILTRAR</button>
+                    </div>
+                    <div class="d-grid gap-1 mb-3">
+                        <button class="btn btn-success btn-sm" type="submit" formaction="{{ route('pdf') }}"> generar pdf</button>
                     </div>
                 </form>
             </div>
@@ -133,17 +136,13 @@
                     <table  id="dataTableExample" class="table table-responsive">
                         <thead>
                             <tr>
-                                <th>id</th>
                                 <th>Sección</th>
                                 <th>Nombre</th>
-                                <th>Apellido Paterno</th>
-                                <th>Apellido Materno</th>
-                                <th>Domicilio</th>
-                                <th>Localidad</th>
+                                <th>Ap Paterno</th>
+                                <th>Ap Materno</th>
+                                <th>Localidad y domicilio</th>
                                 <th>Clave Elector</th>
-                                <th>Curp</th>
-                                <th>Tel Celular</th>
-                                <th>Tel fijo</th>
+                                <th>Telefono</th>
                                 <th>Correo</th>
                                 <th>Facebook</th>
                                 <th>Ocupación</th>
@@ -159,17 +158,13 @@
                         <tbody>
                             @foreach ($promovidos as $promovido)
                                 <tr>
-                                    <td>{{$promovido->id}}</td>
                                     <td>{{$promovido->seccion_elec}}</td>
                                     <td>{{$promovido->nombre}}</td>
                                     <td>{{$promovido->apellido_pat}}</td>
                                     <td>{{$promovido->apellido_mat}}</td>
-                                    <td>{{$promovido->domicilio}}</td>
-                                    <td>{{$promovido->localidad}}</td>
+                                    <td>{{$promovido->localidad_y_domicilio}}</td>
                                     <td>{{$promovido->clave_elec}}</td>
-                                    <td>{{$promovido->curp}}</td>
-                                    <td>{{$promovido->tel_celular}}</td>
-                                    <td>{{$promovido->tel_fijo}}</td>
+                                    <td>{{$promovido->telefono}}</td>
                                     <td>{{$promovido->correo}}</td>
                                     <td>{{$promovido->facebook}}</td>
                                     <td>{{$promovido->ocupaciones->nombre}}</td>

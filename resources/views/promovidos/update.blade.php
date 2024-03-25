@@ -39,12 +39,8 @@
                 <input id="apellido_mat" class="form-control" name="apellido_mat" type="text" value="{{$promovido->apellido_mat}}">
               </div>
               <div class="mb-3">
-                <label for="domicilio" class="form-label">Domicilio</label>
-                <input id="domicilio" class="form-control" name="domicilio" type="text" value="{{$promovido->domicilio}}">
-              </div>
-              <div class="mb-3">
-                <label for="localidad" class="form-label">localidad</label>
-                <input id="localidad" class="form-control" name="localidad" type="text" value="{{$promovido->localidad}}">
+                <label for="localidad" class="form-label">localidad y domicilio</label>
+                <input id="localidad" class="form-control" name="localidad" type="text" value="{{$promovido->localidad_y_domicilio}}">
               </div>
               <div class="mb-3">
                 <label for="clave_elec" class="form-label">Clave Elector</label>
@@ -52,18 +48,8 @@
               </div>
 
               <div class="mb-3">
-                <label for="curp" class="form-label">Curp</label>
-                <input id="curp" class="form-control" name="curp" type="text" value="{{$promovido->curp}}" maxlength="18">
-              </div>
-
-              <div class="mb-3">
-                <label for="tel_celular" class="form-label">Telefono Celular</label>
-                <input value="{{$promovido->tel_celular}}" id="tel_celular" class="form-control" name="tel_celular" type="text" maxlength="10">
-              </div>
-              
-              <div class="mb-3">
-                <label for="tel_fijo" class="form-label">Telefono Fijo</label>
-                <input value="{{$promovido->tel_fijo}}" id="tel_fijo" class="form-control" name="tel_fijo" type="text" maxlength="10">
+                <label for="telefono" class="form-label">Telefono Celular</label>
+                <input value="{{$promovido->telefono}}" id="tel_celular" class="form-control" name="telefono" type="text" maxlength="10">
               </div>
               
               <div class="mb-3">
@@ -113,36 +99,6 @@
               <div class="mb-3">
                 <label for="fecha_captura">Fecha de Captura</label>
                 <input id="fecha_captura" class="form-control"  name="fecha_captura" data-inputmask-inputformat="dd/mm/yyyy" data-inputmask="'alias': 'datetime'" inputmode="numeric" value="{{$fecha_captura}}">
-            </div>
-              
-              <div class="mb-3">
-                <label class="form-label" for="genero">Genero</label>
-                <div>
-                  <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input" name="genero" id="gender1" value="H" {{($genero == "H") ? 'checked' : 'true' }}>
-                    <label class="form-check-label">
-                      H
-                    </label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input" name="genero" id="gender2" value="M" {{($genero == "M") ? 'checked' : 'true' }}>
-                    <label class="form-check-label">
-                      M
-                    </label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input" name="genero" id="gender3" value="otro" {{($genero == "Other") ? 'checked' : 'true' }}>
-                    <label class="form-check-label">
-                      Other
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              
-              <div class="mb-3">
-                <label for="edad" class="form-label">Edad</label>
-                <input id="edad" class="form-control" name="edad" type="text" value="{{$promovido->edad}}">
               </div>
 
               <div class="mb-3">

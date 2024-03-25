@@ -5,6 +5,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PromovidoController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PdfController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,4 +46,8 @@ Route::controller(LoginController::class)->group(function(){
 
 Route::controller(FiltroController::class)->group(function(){
     Route::get('/ver_promovidos/filtro','filtro')->name('filtro')->middleware('can:ver-promovidos','auth');
+});
+
+Route::controller(PdfController::class)->group(function(){
+    Route::get('/ver_promovidos/pdf','pdf')->name('pdf')->middleware('can:ver-promovidos','auth');
 });
