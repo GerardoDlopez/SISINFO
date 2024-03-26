@@ -23,8 +23,17 @@
             <form id="promovidos" method="POST" action="{{Route('promovido.store')}}" >
               @csrf
               <div class="mb-3">
-                <label for="seccion_elec" class="form-label">Sección Electoral</label>
-                <input id="seccion_elec" class="form-control" name="seccion_elec" type="text"  maxlength="4" value="{{old('seccion_elec')}}">
+                <label for="id_seccion" class="form-label">Sección Electoral</label>
+                <select name="id_seccion" id="id_seccion" class="form-select">
+                    <option value="" disabled selected>Elige una seccion electoral</option>
+                  @foreach ($secciones as $seccion)
+                      <option value="{{$seccion->id}}"
+                        {{ old('id_seccion') == $seccion->id ? 'selected' : '' }}
+                        >
+                        {{$seccion->seccion}} {{$seccion->nombre}}
+                      </option>
+                  @endforeach
+                </select>
               </div>
               <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>

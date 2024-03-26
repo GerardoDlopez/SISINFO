@@ -17,10 +17,19 @@
                 <form action="{{Route('filtro')}}" method="get">
                     <div class="mb-3">
                         <div class="row">
-                            <div class="mb-3 col">
-                                <label for="" class="form-label">Secciones</label>
-                                <input type="text" class="form-control"  name="seccion" value="{{$seccion}}">
-                            </div>
+                            <div class="mb-3">
+                                <label for="id_seccion" class="form-label">Sección Electoral</label>
+                                <select name="id_seccion" id="id_seccion" class="form-select">
+                                    <option value="" disabled selected>Elige una seccion electoral</option>
+                                  @foreach ($secciones as $seccion)
+                                      <option value="{{$seccion->id}}"
+                                        {{($seccion_selected == $seccion->id) ? 'selected' : 'true' }}
+                                        >
+                                        {{$seccion->seccion}} {{$seccion->nombre}}
+                                      </option>
+                                  @endforeach
+                                </select>
+                              </div>
 
                             <div class="mb-3 col">
                                 <label for="" class="form-label">Lideres</label>
@@ -35,8 +44,8 @@
 
                         <div class="row">
                             <div class="mb-3 col">
-                                <label for="" class="form-label">Localidadad y domicilio</label>
-                                <input type="text" class="form-control"  name="localidad" name="localidad" value="{{$localidad_y_domicilio}}">
+                                <label for="localidad_y_domicilio" class="form-label">Localidadad y domicilio</label>
+                                <input type="text" class="form-control"  name="localidad_y_domicilio" value="{{$localidad_y_domicilio}}">
                             </div>
 
                             <div class="mb-3 col">
@@ -158,7 +167,7 @@
                         <tbody>
                             @foreach ($promovidos as $promovido)
                                 <tr>
-                                    <td>{{$promovido->seccion_elec}}</td>
+                                    <td>{{$promovido->secciones->seccion}}</td>
                                     <td>{{$promovido->nombre}}</td>
                                     <td>{{$promovido->apellido_pat}}</td>
                                     <td>{{$promovido->apellido_mat}}</td>

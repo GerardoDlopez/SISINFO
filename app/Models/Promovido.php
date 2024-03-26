@@ -20,6 +20,10 @@ class Promovido extends Model
         return $this->belongsTo(Ocupacion::class,'id_ocupacion');
     }
 
+    public function secciones(){
+        return $this->belongsTo(seccion::class,'id_seccion');
+    }
+
     public function observaciones(){
         return $this->belongsToMany('App\Models\Observacion');
     }

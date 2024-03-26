@@ -7,8 +7,37 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="table-responsive row">
-        <table  id="dataTableExample" class="table table-responsive">
+    <style>
+
+        table {
+          border-collapse: collapse;
+          width: 80%; /* Modifica el ancho como desees */
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          margin: 0 auto; /* Centra la tabla horizontalmente */
+        }
+
+        /* Estilo para las celdas */
+        th, td {
+            padding: 5px;
+            border: 1px solid #ccc;
+            text-align: center; /* Centra el contenido de las celdas */
+        }
+
+        /* Estilo para las filas impares */
+        tr:nth-child(odd) {
+          background-color: #f9f9f9;
+        }
+
+        /* Estilo para el encabezado */
+        th {
+          background-color: #F2F2F9;
+          font-weight: bold;
+        }
+    </style>
+
+    <div >
+        <table  id="dataTableExample" >
             <thead>
                 <tr>
                     <th>Sección</th>
@@ -24,7 +53,7 @@
             <tbody>
                 @foreach ($promovidos as $promovido)
                     <tr>
-                        <td>{{$promovido->seccion_elec}}</td>
+                        <td>{{$promovido->secciones->seccion}}</td>
                         <td>{{$promovido->nombre}}</td>
                         <td>{{$promovido->apellido_pat}}</td>
                         <td>{{$promovido->apellido_mat}}</td>
@@ -36,6 +65,6 @@
                 @endforeach
             </tbody>
         </table>
-    
+    </div>
 </body>
 </html>

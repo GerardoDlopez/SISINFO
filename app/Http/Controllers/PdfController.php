@@ -12,10 +12,10 @@ class PdfController extends Controller
 
         $promovidos = Promovido::query()->when($request->input('lider') !== null, function ($query) use ($request) { 
             $query->where('id_usuario', $request->input('lider'));
-         })->when($request->input('seccion') !== null, function ($query) use ($request) { 
-            $query->where('seccion_elec', $request->input('seccion'));
-         })->when($request->input('localidad') !== null, function ($query) use ($request) { 
-            $query->where('localidad', $request->input('localidad'));
+         })->when($request->input('id_seccion') !== null, function ($query) use ($request) { 
+            $query->where('id_seccion', $request->input('id_seccion'));
+         })->when($request->input('localidad_y_domicilio') !== null, function ($query) use ($request) { 
+            $query->where('localidad_y_domicilio', $request->input('localidad_y_domicilio'));
          })->when($request->input('ocupacion') !== null, function ($query) use ($request) { 
             $query->where('id_ocupacion', $request->input('ocupacion'));
          })->when($request->input('escolaridad') !== null, function ($query) use ($request) { 
@@ -29,8 +29,9 @@ class PdfController extends Controller
             $query->wherehas('observaciones', function ($query) use ($request) {
                 $query->where('nombre', $request->input('observacion'));}
             );
-         })->paginate(10);
-        $pdf = Pdf::loadView('pdf.promovidos_pdf', ['promovidos'=>$promovidos]);
-        return $pdf->stream();
+         })->get();
+         
+         $pdf = Pdf::loadView('pdf.promovidos_pdf', ['promovidos'=>$promovidos]);
+         return $pdf->download('promovidos.pdf');
     }
 }

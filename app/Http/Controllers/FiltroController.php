@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Promovido;
 use App\Models\Observacion;
 use App\Models\Ocupacion;
+use App\Models\seccion;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -16,10 +17,10 @@ class FiltroController extends Controller
 
       $promovidos = Promovido::query()->when($request->input('lider') !== null, function ($query) use ($request) { 
             $query->where('id_usuario', $request->input('lider'));
-         })->when($request->input('seccion') !== null, function ($query) use ($request) { 
-            $query->where('seccion_elec', $request->input('seccion'));
-         })->when($request->input('localidad') !== null, function ($query) use ($request) { 
-            $query->where('localidad', $request->input('localidad'));
+         })->when($request->input('id_seccion') !== null, function ($query) use ($request) { 
+            $query->where('id_seccion', $request->input('id_seccion'));
+         })->when($request->input('localidad_y_domicilio') !== null, function ($query) use ($request) { 
+            $query->where('localidad_y_domicilio', $request->input('localidad_y_domicilio'));
          })->when($request->input('ocupacion') !== null, function ($query) use ($request) { 
             $query->where('id_ocupacion', $request->input('ocupacion'));
          })->when($request->input('escolaridad') !== null, function ($query) use ($request) { 
@@ -41,13 +42,14 @@ class FiltroController extends Controller
       $observaciones = Observacion::all();
       $usuarios = User::all();
       $ocupaciones = Ocupacion::all();
+      $secciones = seccion::all();
 
       $observacion_selected = $request->observacion;
       $ocupacion_selected = $request->ocupacion;
       $lider_selected = $request->lider;
+      $seccion_selected = $request->id_seccion;
 
       $localidad_y_domicilio = $request->localidad_y_domicilio;
-      $seccion = $request->seccion;
       $ocupacion = $request->ocupacion;
       $escolaridad = $request->escolaridad;
       $genero = $request->genero;
@@ -59,13 +61,14 @@ class FiltroController extends Controller
          'promovidos',
          'observaciones',
          'ocupaciones',
+         'secciones',
 
          'lider_selected',
          'observacion_selected',
          'ocupacion_selected',
+         'seccion_selected',
             
          'usuarios',
-         'seccion',
          'localidad_y_domicilio',
          'ocupacion',
          'escolaridad',

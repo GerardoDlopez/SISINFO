@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Observacion;
 use App\Models\Ocupacion;
 use App\Models\Promovido;
+use App\Models\seccion;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,6 +20,7 @@ class PromovidoController extends Controller
         $observaciones = Observacion::all();
         $usuarios = User::all();
         $ocupaciones = Ocupacion::all();
+        $secciones = seccion::all();
 
         $allpromovidos_count = $promovidos->total();
         $filtrados_count = $promovidos->total();
@@ -26,8 +28,8 @@ class PromovidoController extends Controller
         $lider_selected = '';
         $observacion_selected = '';
         $ocupacion_selected = '';
+        $seccion_selected = '';
 
-        $seccion = '';
         $localidad_y_domicilio = '';
         $ocupacion = '';
         $escolaridad = '';
@@ -39,12 +41,13 @@ class PromovidoController extends Controller
             'observaciones',
             'usuarios',
             'ocupaciones',
+            'secciones',
 
             'lider_selected',
             'observacion_selected',
             'ocupacion_selected',
+            'seccion_selected',
 
-            'seccion',
             'localidad_y_domicilio',
             'ocupacion',
             'escolaridad',
@@ -61,7 +64,8 @@ class PromovidoController extends Controller
         $users= User::all();
         $ocupaciones = Ocupacion::all();
         $observaciones = Observacion::all();
-        return view('promovidos.create',compact('users','ocupaciones','observaciones'));
+        $secciones = seccion::all();
+        return view('promovidos.create',compact('users','ocupaciones','observaciones','secciones'));
     }
 
     public function promovido_store(Request $request ){
@@ -117,7 +121,7 @@ class PromovidoController extends Controller
         //creamos un nuevo promovido
         $promovido = new Promovido();
         //asignamos la sección electoral
-        $promovido->seccion_elec=$request->seccion_elec;
+        $promovido->id_seccion=$request->id_seccion;
         //asignamos nombre y apellidos
         $promovido->nombre=$request->nombre;
         $promovido->apellido_pat=$request->apellido_pat;
@@ -157,11 +161,13 @@ class PromovidoController extends Controller
         $users = User::all();
         $ocupaciones = Ocupacion::all();
         $observaciones = Observacion::all();
+        $secciones = seccion::all();
+
         $genero = $promovido->genero;
         $observacion_selected = $promovido->observaciones->pluck('nombre','nombre')->all();
         $fecha_captura = Carbon::createFromFormat('Y-m-d', $promovido->fecha_captura);
         $fecha_captura = $fecha_captura->format('d/m/Y');
-        return view('promovidos.update',compact('promovido','users','genero', 'ocupaciones', 'observaciones', 'observacion_selected','fecha_captura'));
+        return view('promovidos.update',compact('promovido','users','genero', 'ocupaciones', 'observaciones', 'secciones','observacion_selected','fecha_captura'));
     }
     
     public function promovido_update(Promovido $promovido, Request $request){
@@ -178,7 +184,7 @@ class PromovidoController extends Controller
         $fecha_captura = $fecha_captura->format('Y-m-d');
         
         $data =[
-            'seccion_elec' => $request->seccion_elec,
+            'id_seccion' => $request->id_seccion,
             'nombre' => $request->nombre,
             'apellido_pat' => $request->apellido_pat,
             'apellido_mat' => $request->apellido_mat,

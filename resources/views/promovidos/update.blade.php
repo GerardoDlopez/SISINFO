@@ -23,8 +23,17 @@
               @csrf
               @method('put')
               <div class="mb-3">
-                <label for="seccion_elec" class="form-label">Sección Electoral</label>
-                <input id="seccion_elec" class="form-control" name="seccion_elec" type="text" value="{{$promovido->seccion_elec}}" maxlength="4">
+                <label for="id_seccion" class="form-label">Sección Electoral</label>
+                <select name="id_seccion" id="id_seccion" class="form-select">
+                    <option value="" disabled selected>Elige una seccion electoral</option>
+                  @foreach ($secciones as $seccion)
+                      <option value="{{$seccion->id}}"
+                        {{($seccion->id == $promovido->id_seccion) ? 'selected' : '' }}
+                        >
+                        {{$seccion->seccion}} {{$seccion->nombre}}
+                      </option>
+                  @endforeach
+                </select>
               </div>
               <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
@@ -39,8 +48,8 @@
                 <input id="apellido_mat" class="form-control" name="apellido_mat" type="text" value="{{$promovido->apellido_mat}}">
               </div>
               <div class="mb-3">
-                <label for="localidad" class="form-label">localidad y domicilio</label>
-                <input id="localidad" class="form-control" name="localidad" type="text" value="{{$promovido->localidad_y_domicilio}}">
+                <label for="localidad_y_domicilio" class="form-label">localidad y domicilio</label>
+                <input id="localidad_y_domicilio" class="form-control" name="localidad_y_domicilio" type="text" value="{{$promovido->localidad_y_domicilio}}">
               </div>
               <div class="mb-3">
                 <label for="clave_elec" class="form-label">Clave Elector</label>
