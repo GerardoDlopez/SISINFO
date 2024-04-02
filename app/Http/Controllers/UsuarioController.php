@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\seccion;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -11,8 +12,9 @@ class UsuarioController extends Controller
 {
     public function user_create(){
         
-        $roles = Role::pluck('name','name')->all();
-        return view('user.create', ['roles'=> $roles]);
+        $permisos = Role::pluck('name','name')->all();
+        $secciones = seccion::all();
+        return view('user.create', ['permisos'=> $permisos,'secciones'=> $secciones]);
     }
     public function user_read(){
         $users= User::all();
@@ -26,9 +28,11 @@ class UsuarioController extends Controller
         $user->email=$request->correo;
         $user->telefono=$request->telefono;
         $user->password = Hash::make($request->contraseña);
+        $user->rol = $request->rol;
+        $user->id_seccion = $request->id_seccion;
         $user->save();
 
-        $user->syncRoles($request->roles);
+        $user->syncRoles($request->permisos);
 
         return redirect()->route('user.read')->with('agregar','ok');
     }
@@ -36,20 +40,30 @@ class UsuarioController extends Controller
     public function user_edit($user_id){
         
         $user = User::find($user_id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole =$user->roles->pluck('name','name')->all();
+        $permisos = Role::pluck('name','name')->all();
+        $userPermiso =$user->roles->pluck('name','name')->all();
+        $secciones = seccion::all();
+        if($user->secciones){
+            $userSeccion = $user->secciones->seccion;
+        }else {
+            $userSeccion = "";
+        }
 
         return view('user.update',[
             'user'=> $user,
-            'roles'=> $roles,
-            'userRole'=> $userRole,
+            'permisos'=> $permisos,
+            'userPermiso'=> $userPermiso,
+            'secciones'=> $secciones,
+            'userSeccion'=> $userSeccion,
         ]);
     }
     public function user_update(Request $request, User $user){
         $data =[
             'name' => $request->nombre,
             'email' => $request->correo,
-            'telefono' => $request->telefono
+            'telefono' => $request->telefono,
+            'rol'=> $request->rol,
+            'id_seccion' => $request->id_seccion,
         ];
         if (!empty($request->contraseña)) {
             $data +=[
@@ -58,7 +72,7 @@ class UsuarioController extends Controller
         }
         $user->update($data);
 
-        $user->syncRoles($request->roles);
+        $user->syncRoles($request->permisos);
 
         return redirect()->route('user.read')->with('actualizar','ok');
     }

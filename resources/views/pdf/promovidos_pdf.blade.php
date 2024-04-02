@@ -10,19 +10,17 @@
     <style>
 
         table {
-          border-collapse: collapse;
-          width: 80%; /* Modifica el ancho como desees */
-          border: 1px solid #ccc;
-          border-radius: 8px;
-          margin: 0 auto; /* Centra la tabla horizontalmente */
+            border-collapse: collapse;
+            width: 700px; /* Ancho correspondiente al tamaño de una hoja carta en píxeles (8.5 x 72 ppp) */
+            margin: 0 auto;
         }
-
-        /* Estilo para las celdas */
         th, td {
-            padding: 5px;
-            border: 1px solid #ccc;
-            text-align: center; /* Centra el contenido de las celdas */
+            padding: 2px; /* Reducir el relleno */
+            border: 1px solid #ccc; /* Reducir el tamaño del borde */
+            text-align: center;
+            font-size: 12px; /* Reducir el tamaño de fuente */
         }
+        /* Otros estilos... */
 
         /* Estilo para las filas impares */
         tr:nth-child(odd) {
@@ -36,14 +34,11 @@
         }
     </style>
 
-    <div >
         <table  id="dataTableExample" >
             <thead>
                 <tr>
                     <th>Sección</th>
                     <th>Nombre</th>
-                    <th>Apellido Paterno</th>
-                    <th>Apellido Materno</th>
                     <th>Localidad y domicilio</th>
                     <th>Clave Elector</th>
                     <th>Telefono</th>
@@ -54,17 +49,18 @@
                 @foreach ($promovidos as $promovido)
                     <tr>
                         <td>{{$promovido->secciones->seccion}}</td>
-                        <td>{{$promovido->nombre}}</td>
-                        <td>{{$promovido->apellido_pat}}</td>
-                        <td>{{$promovido->apellido_mat}}</td>
+                        <td>{{$promovido->nombre}} {{$promovido->apellido_pat}} {{$promovido->apellido_mat}}</td>
                         <td>{{$promovido->localidad_y_domicilio}}</td>
                         <td>{{$promovido->clave_elec}}</td>
                         <td>{{$promovido->telefono}}</td>
+                        @if ($promovido->lideres)
                         <td>{{$promovido->lideres->name}}</td>
+                        @else
+                            <td>Sin asignar</td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
         </table>
-    </div>
 </body>
 </html>

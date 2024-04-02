@@ -16,6 +16,9 @@ class Promovido extends Model
     public function lideres(){
         return $this->belongsTo(User::class,'id_usuario');
     }
+    public function promotores(){
+        return $this->belongsTo(User::class,'id_promotor');
+    }
     public function ocupaciones(){
         return $this->belongsTo(Ocupacion::class,'id_ocupacion');
     }

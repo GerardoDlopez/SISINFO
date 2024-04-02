@@ -48,6 +48,15 @@
           </a>
         </li>
         @endcan
+        <li  class="nav-item nav-category">Importar excel</li>
+        @can('ver-promovidos')    
+          <li class="nav-item ">
+            <a href="{{Route('excel.read')}}" class="nav-link">
+              <i class="link-icon" data-feather="file"></i>
+              <span class="link-title">Importar promovidos</span>
+            </a>
+          </li>
+        @endcan
     </ul>
   </div>
 </nav>

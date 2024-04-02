@@ -1,6 +1,7 @@
 @extends('plantillas.master')
 
 @push('plugin-styles')
+    <link href="{{ asset('assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/plugins/DataTables/dataTables.bootstrap5.css') }}" rel="stylesheet" />
     <link href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" rel="stylesheet" />
@@ -19,7 +20,7 @@
                         <div class="row">
                             <div class="mb-3">
                                 <label for="id_seccion" class="form-label">Sección Electoral</label>
-                                <select name="id_seccion" id="id_seccion" class="form-select">
+                                <select name="id_seccion" id="id_seccion" class="js-example-basic-single form-select" data-width="100%">
                                     <option value="" disabled selected>Elige una seccion electoral</option>
                                   @foreach ($secciones as $seccion)
                                       <option value="{{$seccion->id}}"
@@ -33,7 +34,7 @@
 
                             <div class="mb-3 col">
                                 <label for="" class="form-label">Lideres</label>
-                                <select name="lider" id="" class="form-select">
+                                <select name="lider" id="" class="js-example-basic-single form-select" data-width="100%">
                                     <option value="" selected disabled>Selecciona un lider</option>
                                     @foreach ($usuarios as $usuario)
                                     <option value="{{$usuario->id}}"{{($usuario->id == $lider_selected) ? 'selected' : 'true' }}>{{$usuario->name}}</option>
@@ -50,7 +51,7 @@
 
                             <div class="mb-3 col">
                                 <label for="ocupacion" class="form-label">Ocupación</label>
-                                <select name="ocupacion" class="form-select">
+                                <select name="ocupacion" class="js-example-basic-single form-select" data-width="100%">
                                     <option value="" selected disabled>Selecciona una ocupacion</option>
                                     @foreach ($ocupaciones as $ocupacion)
                                         <option value="{{$ocupacion->id}}" {{($ocupacion->id == $ocupacion_selected) ? 'selected' : 'true' }} >{{$ocupacion->nombre}}</option>
@@ -62,7 +63,7 @@
                         <div class="row">
                             <div class="mb-3 col">
                                 <label for="escolaridad" class="form-label">Escolaridad</label>
-                                <select name="escolaridad" id="" class="form-select">
+                                <select name="escolaridad" id="" class="form-select" data-width="100%">
                                     <option value="" selected disabled>Selecciona una escolaridad</option>
                                     <option value="primaria" {{('primaria' == $escolaridad) ? 'selected' : 'true' }}>Primaria</option>
                                     <option value="secundaria" {{('secundaria' == $escolaridad) ? 'selected' : 'true' }}>Secundaria</option>
@@ -74,7 +75,7 @@
 
                             <div class="mb-3 col">
                                 <label for="observaciones" class="form-label">Observaciones</label>
-                                <select name="observacion" id="" class="form-select">
+                                <select name="observacion" id="" class="js-example-basic-single form-select" data-width="100%">
                                     <option value="" selected disabled>Selecciona una observación</option>
                                     @foreach ($observaciones as $observacion)
                                     <option value="{{$observacion->nombre}}"{{($observacion->nombre == $observacion_selected) ? 'selected' : 'true' }}>{{$observacion->nombre}}</option>
@@ -102,7 +103,13 @@
                                   <div class="form-check form-check-inline">
                                     <input type="radio" class="form-check-input" name="genero" id="gender3" value="otro" {{($genero == "Other") ? 'checked' : 'true' }}>
                                     <label class="form-check-label">
-                                      Other
+                                      Otro
+                                    </label>
+                                  </div>
+                                  <div class="form-check form-check-inline">
+                                    <input type="radio" class="form-check-input" name="genero" id="gender4" value="" {{($genero == "") ? 'checked' : 'true' }}>
+                                    <label class="form-check-label">
+                                      Ninguno
                                     </label>
                                   </div>
                                 </div>
@@ -160,6 +167,7 @@
                                 <th>Fecha de Captura</th>
                                 <th>Genero</th>
                                 <th>Edad</th>
+                                <th>Promotor</th>
                                 <th>Lider</th>
                                 <th>Acción</th>
                             </tr>
@@ -176,7 +184,11 @@
                                     <td>{{$promovido->telefono}}</td>
                                     <td>{{$promovido->correo}}</td>
                                     <td>{{$promovido->facebook}}</td>
-                                    <td>{{$promovido->ocupaciones->nombre}}</td>
+                                    @if ($promovido->ocupaciones)
+                                        <td>{{$promovido->ocupaciones->nombre}}</td>
+                                    @else
+                                        <td>Sin ocupaciones</td>
+                                    @endif
                                     <td>{{$promovido->escolaridad}}</td>
                                     <td>
                                         @foreach ($promovido->observaciones as $observacion)
@@ -186,7 +198,16 @@
                                     <td>{{$promovido->fecha_captura}}</td>
                                     <td>{{$promovido->genero}}</td>
                                     <td>{{$promovido->edad}}</td>
-                                    <td>{{$promovido->lideres->name}}</td>
+                                    @if ($promovido->promotores)
+                                        <td>{{$promovido->promotores->name}}</td>
+                                    @else
+                                        <td>Sin asignar</td>
+                                    @endif
+                                    @if ($promovido->lideres)
+                                        <td>{{$promovido->lideres->name}}</td>
+                                    @else
+                                        <td>Sin asignar</td>
+                                    @endif
                                     <td>
                                         @can('actualizar-promovidos')
                                             <form action="{{route('promovido.edit',$promovido)}}" style="display:inline;" >
@@ -260,11 +281,13 @@
 <script src="{{ asset('assets/plugins/DataTables/responsive.bootstrap5.js') }}"></script>
 
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+
+<script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
     <script src="{{ asset('assets/js/data-table.js') }}"></script>
-
+    <script src="{{ asset('assets/js/select2.js') }}"></script>
     <!--Mostra filtro-->
     <script>
         function filtro() {

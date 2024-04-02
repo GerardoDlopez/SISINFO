@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\FiltroController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PromovidoController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -50,4 +52,9 @@ Route::controller(FiltroController::class)->group(function(){
 
 Route::controller(PdfController::class)->group(function(){
     Route::get('/ver_promovidos/pdf','pdf')->name('pdf')->middleware('can:ver-promovidos','auth');
+});
+
+Route::controller(ExcelController::class)->group(function(){
+    Route::get('/excel_show','excel_read')->name('excel.read');
+    Route::post('/excel_immport','excel_import')->name('excel.importar');
 });

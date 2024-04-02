@@ -48,13 +48,36 @@
                 <input id="confirmar_contraseña" class="form-control" name="confirmar_contraseña" type="text">
               </div>
 
+              <div class="mb-3">
+                <label for="rol" class="form-label">Roles</label>
+                <select name="rol"  class="form-select">
+                  <option value="administrador" >Administrador</option>
+                  <option value="capturador" >Capturador</option>
+                  <option value="responsable">Responsable/Cordinador</option>
+                  <option value="promotor">Promotor</option>
+                  <option value="ninguno">Ninguna</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="id_seccion" class="form-label">Sección a cargo</label>
+                <select name="id_seccion" id="id_seccion" class="form-select">
+                    <option value="" disabled selected>Elige una seccion electoral</option>
+                  @foreach ($secciones as $seccion)
+                      <option value="{{$seccion->id}}">
+                        {{$seccion->seccion}} {{$seccion->nombre}}
+                      </option>
+                  @endforeach
+                </select>
+              </div>
+
               <div class="mb-5">
-                <label for="roles">Roles</label>
-                <select id="roles" name="roles[]" class="js-example-basic-multiple form-select select2-hidden-accessible form-control" data-width="100%" multiple aria-hidden="true" >
+                <label for="permisos">Permisos</label>
+                <select id="permisos" name="permisos[]" class="js-example-basic-multiple form-select select2-hidden-accessible form-control" data-width="100%" multiple aria-hidden="true" >
                   <option value="" disabled>Seleccione un rol</option>
-                  @foreach ($roles as $rol)
-                      <option value="{{$rol}}">
-                        {{$rol}}
+                  @foreach ($permisos as $permiso)
+                      <option value="{{$permiso}}">
+                        {{$permiso}}
                       </option>
                   @endforeach
                 </select>

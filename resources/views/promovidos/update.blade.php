@@ -111,6 +111,21 @@
               </div>
 
               <div class="mb-3">
+                <label for="genero">genero</label>
+                <input type="text" name="genero" class="form-control" value="{{$promovido->genero}}">
+              </div>
+
+              <div class="mb-3">
+                <label for="edad">edad</label>
+                <input type="text" name="edad" class="form-control" value="{{$promovido->edad}}">
+              </div>
+
+              <div class="mb-3">
+                <label for="promotor">Promotor</label>
+                <input type="text" name="promotor" class="form-control" value="{{$promovido->promotor}}">
+              </div>
+
+              <div class="mb-3">
                 <label for="id_usuario" class="form-label">Lider</label>
                 <select id="id_usuario" class="form-select" name="id_usuario" type="text">
                   @foreach ($users as $user)

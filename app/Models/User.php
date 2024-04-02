@@ -23,7 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'telefono'
+        'telefono',
+        'rol',
+        'id_seccion'
     ];
 
     /**
@@ -48,5 +50,8 @@ class User extends Authenticatable
 
     public function promovidos(){
         return $this->hasMany(Promovido::class,'id');
+    }
+    public function secciones(){
+        return $this->belongsTo(seccion::class,'id_seccion');
     }
 }

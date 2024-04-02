@@ -19,29 +19,35 @@
                         <a href="{{Route('user.create')}}" class="btn btn-success" style="text-align: center">Agregar usuario</a>
                     </div>
                     <div class="table-responsive">
-                        <table  id="dataTableExample" class="table table-responsive">
+                        <table  id="usuarios" class="table table-responsive">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Telefono</th>
-                                    <th>Roles</th>
+                                    <th>Permisos</th>
+                                    <th>Rol</th>
+                                    <th>Seccion a cargo</th>
                                     <th>Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td>{{$user->id}}</td>
                                         <td>{{$user->name}}</td>
                                         <td>{{$user->telefono}}</td>
                                         <td>
                                             @if (!empty($user->getRoleNames()))
-                                                @foreach ($user->getRoleNames() as $roleName)
-                                                    <label class="badge rounded-pill bg-primary">{{$roleName}}</label>
+                                                @foreach ($user->getRoleNames() as $permisoName)
+                                                    <label class="badge rounded-pill bg-primary">{{$permisoName}}</label>
                                                 @endforeach
                                             @endif
                                         </td>
+                                        <td>{{$user->rol}}</td>
+                                        @if ($user->secciones)    
+                                            <td>{{$user->secciones->seccion}} {{$user->secciones->nombre}}</td>
+                                        @else
+                                            <td>Sin seccion</td>
+                                        @endif
                                         <td>
                                             @can('actualizar-usuarios')    
                                                 <form action="{{route('user.edit',$user->id)}}" style="display:inline;" >

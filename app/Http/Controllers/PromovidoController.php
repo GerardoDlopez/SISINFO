@@ -69,6 +69,7 @@ class PromovidoController extends Controller
     }
 
     public function promovido_store(Request $request ){
+
         //validamos la clave elector
         $validated = $request->validate([
             'clave_elec' =>['unique:promovidos,clave_elec']
@@ -83,6 +84,16 @@ class PromovidoController extends Controller
             $ocupacion->save();
             $request->merge(['id_ocupacion' => $ocupacion->id]);
         }
+
+        if($request->inputPromotor){
+            $promotor = new User();
+            $promotor->name = $request->inputOcupacion;
+            $promotor->rol = 'promotor';
+            $promotor->id_seccion = $request->id_seccion;
+            $promotor->save();
+            $request->merge(['id_promotor' => $promotor->id]);
+        }
+
         if($request->clave_elec){
             // Extraer género y fecha de nacimiento de la clave de elector
             $claveElector = $request->clave_elec;
@@ -143,6 +154,8 @@ class PromovidoController extends Controller
         $fecha_captura = Carbon::createFromFormat('d/m/Y', $request->fecha_captura);
         $fecha_captura = $fecha_captura->format('Y-m-d');
         $promovido->fecha_captura=$fecha_captura;
+        //asignamos promotor
+        $promovido->id_promotor=$request->id_promotor;
         //Asignamos el lider al promovido
         $promovido->id_usuario=$request->id_usuario;
         
@@ -196,6 +209,9 @@ class PromovidoController extends Controller
             'id_ocupacion' => $request->ocupacion,
             'escolaridad' => $request->escolaridad,
             'fecha_captura' => $fecha_captura,
+            'genero' => $request->genero,
+            'edad' => $request->edad,
+            'id_promotor' => $request->id_promotor,
             'id_usuario' => $request->id_usuario,
         ];
         $promovido->observaciones()->sync($request->observaciones);
