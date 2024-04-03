@@ -14,6 +14,20 @@
     <div id="filtro" class="col-lg-2 col-xl-2 grid-margin grid-margin-xl-0 stretch-card" style="display: none">
         <div class="card">
             <div class="card-body">
+                <div class="mb-3">
+                    <h6 class="card-title">busqueda individual</h6>
+                    <form action="{{Route('buscador')}}" method="get">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">busca al promovido por su nombre</label>
+                            <input type="text"  name="nombre" class="form-control">
+                        </div>
+                            <div style="text-align: center">
+                            <div class="d-grid gap-1 mb-3">
+                                <button class="btn btn-success btn-sm" type="submit">BUSCAR</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <h6 class="card-title">Filtros</h6>
                 <form action="{{Route('filtro')}}" method="get">
                     <div class="mb-3">
@@ -154,16 +168,9 @@
                             <tr>
                                 <th>Sección</th>
                                 <th>Nombre</th>
-                                <th>Ap Paterno</th>
-                                <th>Ap Materno</th>
                                 <th>Localidad y domicilio</th>
                                 <th>Clave Elector</th>
                                 <th>Telefono</th>
-                                <th>Correo</th>
-                                <th>Facebook</th>
-                                <th>Ocupación</th>
-                                <th>Escolaridad</th>
-                                <th>Observaciones</th>
                                 <th>Fecha de Captura</th>
                                 <th>Genero</th>
                                 <th>Edad</th>
@@ -177,24 +184,9 @@
                                 <tr>
                                     <td>{{$promovido->secciones->seccion}}</td>
                                     <td>{{$promovido->nombre}}</td>
-                                    <td>{{$promovido->apellido_pat}}</td>
-                                    <td>{{$promovido->apellido_mat}}</td>
                                     <td>{{$promovido->localidad_y_domicilio}}</td>
                                     <td>{{$promovido->clave_elec}}</td>
                                     <td>{{$promovido->telefono}}</td>
-                                    <td>{{$promovido->correo}}</td>
-                                    <td>{{$promovido->facebook}}</td>
-                                    @if ($promovido->ocupaciones)
-                                        <td>{{$promovido->ocupaciones->nombre}}</td>
-                                    @else
-                                        <td>Sin ocupaciones</td>
-                                    @endif
-                                    <td>{{$promovido->escolaridad}}</td>
-                                    <td>
-                                        @foreach ($promovido->observaciones as $observacion)
-                                            {{$observacion->nombre}},
-                                        @endforeach
-                                    </td>
                                     <td>{{$promovido->fecha_captura}}</td>
                                     <td>{{$promovido->genero}}</td>
                                     <td>{{$promovido->edad}}</td>
@@ -210,8 +202,8 @@
                                     @endif
                                     <td>
                                         @can('actualizar-promovidos')
-                                            <form action="{{route('promovido.edit',$promovido)}}" style="display:inline;" >
-                                                <button href="" class="btn btn-success  btn-xs" type="submit">Editar</button>
+                                            <form   style="display:inline;" >
+                                                <button href="" class="btn btn-success  btn-xs" type="button" onclick="openInNewTab('{{ route('promovido.edit', $promovido) }}')">Editar</button>
                                             </form>
                                         @endcan
                                         @can('eliminar-promovidos')
@@ -355,4 +347,10 @@
         </script>
     @endif
     <!--END-->
+    <script>
+        function openInNewTab(url) {
+        var win = window.open(url, '_blank');
+        win.focus();
+        }
+    </script>
 @endpush

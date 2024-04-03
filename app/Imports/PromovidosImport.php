@@ -61,43 +61,13 @@ class PromovidosImport implements ToModel, WithHeadingRow
         // Si el responsable tiene una sección diferente a la del archivo Excel, se asigna como promovido
         if ($responsable && $responsable->id_seccion != $seccion->id) {
             $id_promotor = $responsable->id;
-            echo "entro";
-        }
-
-        // Se divide el nombre completo en nombre, apellido paterno y apellido materno
-        $nombreCompleto = explode(' ', $row['nombre']);
-
-        // Si hay al menos cuatro partes en el nombre completo, asumimos que los dos primeros elementos son los nombres,
-        // el tercer elemento es el apellido paterno y el cuarto elemento es el apellido materno
-        if (count($nombreCompleto) >= 4) {
-            $nombre = $nombreCompleto[0] . ' ' . $nombreCompleto[1]; // Concatenamos los dos primeros elementos como nombre
-            $apellido_pat = $nombreCompleto[2]; // El tercer elemento es el apellido paterno
-            $apellido_mat = $nombreCompleto[3]; // El cuarto elemento es el apellido materno
-        } elseif (count($nombreCompleto) == 3) {
-            // Si hay tres partes en el nombre completo, el primer elemento es el primer nombre, el segundo elemento es el segundo nombre
-            // el tercer elemento es el apellido paterno y el cuarto elemento es el apellido materno
-            $nombre = $nombreCompleto[0]; //asumimos que el primer elemento es el nombre
-            $apellido_pat = $nombreCompleto[1]; // El segundo elemento es el apellido paterno
-            $apellido_mat = $nombreCompleto[2];; // El tercel elemento es el apellido materno
-        } elseif (count($nombreCompleto) == 2) {
-            // Si hay dos partes en el nombre completo, asumimos que el primer elemento es el nombre, el segundo elemento es el apellido paterno
-            $nombre = $nombreCompleto[0];
-            $apellido_pat = $nombreCompleto[1];
-            $apellido_mat = null; // No se proporciona el apellido materno
-        } else {
-            // Si solo hay una parte en el nombre completo, asumimos que es el nombre y los apellidos son nulos
-            $nombre = $nombreCompleto[0];
-            $apellido_pat = null;
-            $apellido_mat = null;
         }
 
 
         event(new ImportProgress($this->rowCount));
 
         return new Promovido([
-            'nombre' => $nombre,
-            'apellido_pat' => $apellido_pat,
-            'apellido_mat' => $apellido_mat,
+            'nombre' => $row['nombre'],
             'id_seccion' => $seccion->id,
             'localidad_y_domicilio' => $row['direccion'] ?? null,
             'genero' => $sexo,

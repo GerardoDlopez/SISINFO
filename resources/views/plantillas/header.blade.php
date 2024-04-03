@@ -13,11 +13,13 @@
           </a>
           <div class="dropdown-menu p-0" aria-labelledby="profileDropdown">
             <div class="d-flex flex-column align-items-center border-bottom px-5 py-3">
-              <div class="mb-3">
-                <span >{{auth()->user()->name}}</span>
-              </div>
-              <div class="text-center">
-              </div>
+                <div class="mb-1">
+                  <label >{{auth()->user()->name}}</label>
+                </div>
+                <div >
+
+                  <label for="">Promovidos capturados: <span  style="font-weight: bold;">{{auth()->user()->cant_promovidos}} </span></label>
+                </div>
             </div>
             <ul class="list-unstyled p-1">
               <li class="text-center">
@@ -31,4 +33,4 @@
         </li>
       </ul>
     </div>
-  </nav>
+</nav>

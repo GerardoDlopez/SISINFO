@@ -19,12 +19,12 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Datos</h4>
-            <form id="promovidos" method="POST" action="{{Route('promovido.update',$promovido)}}" >
+            <form id="promovidos_update" method="POST" action="{{Route('promovido.update',$promovido)}}" >
               @csrf
               @method('put')
               <div class="mb-3">
                 <label for="id_seccion" class="form-label">Sección Electoral</label>
-                <select name="id_seccion" id="id_seccion" class="form-select">
+                <select name="id_seccion" id="id_seccion" class="js-example-basic-single form-select">
                     <option value="" disabled selected>Elige una seccion electoral</option>
                   @foreach ($secciones as $seccion)
                       <option value="{{$seccion->id}}"
@@ -38,14 +38,6 @@
               <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input id="nombre" class="form-control" name="nombre" type="text" value="{{$promovido->nombre}}">
-              </div>
-              <div class="mb-3">
-                <label for="apellido_pat" class="form-label">Apellido Paterno</label>
-                <input id="apellido_pat" class="form-control" name="apellido_pat" type="text" value="{{$promovido->apellido_pat}}">
-              </div>
-              <div class="mb-3">
-                <label for="apellido_mat" class="form-label">Apellido Materno</label>
-                <input id="apellido_mat" class="form-control" name="apellido_mat" type="text" value="{{$promovido->apellido_mat}}">
               </div>
               <div class="mb-3">
                 <label for="localidad_y_domicilio" class="form-label">localidad y domicilio</label>
@@ -73,7 +65,8 @@
               
               <div class="mb-3">
                 <label for="ocupacion" class="form-label">Ocupación</label>
-                <select id="ocupacion" name="ocupacion" class="form-select">
+                <select id="ocupacion" name="ocupacion" class="js-example-basic-single form-select">
+                  <option value="" selected disabled>Selecciona una ocupacion</option>
                   @foreach ($ocupaciones as $ocupacion)
                   <option value="{{$ocupacion->id}}" {{($ocupacion->id == $promovido->id_ocupacion) ? 'selected' : '' }}>{{$ocupacion->nombre}}</option>
                   @endforeach
@@ -83,6 +76,7 @@
               <div class="mb-3">
                 <label for="escolaridad" class="form-label">Escolaridad</label>
                 <select name="escolaridad" id="escolaridad" class="form-select">
+                  <option value="" selected disabled>Seleccione una escolaridad</option>
                   <option value="primaria"{{('primaria' == $promovido->escolaridad) ? 'selected' : 'true' }}>Primaria</option>
                   <option value="secundaria"{{('secundaria' == $promovido->escolaridad) ? 'selected' : 'true' }}>Secundaria</option>
                   <option value="preparatoria"{{('preparatoria' == $promovido->escolaridad) ? 'selected' : 'true' }}>Preparatoria</option>
@@ -121,19 +115,28 @@
               </div>
 
               <div class="mb-3">
-                <label for="promotor">Promotor</label>
-                <input type="text" name="promotor" class="form-control" value="{{$promovido->promotor}}">
+                <label for="id_promotor" class="form-label">Promotor</label>
+                <select id="id_promotor" class="js-example-basic-single form-select" name="id_promotor" type="text">
+                    <option value="" selected disabled>Selecciona un Promotor</option>
+                  @foreach ($users as $user)
+                    <option value="{{$user->id}}" {{($promovido->id_promotor == $user->id) ? 'selected' : 'true' }}>{{$user->name}}</option>                      
+                  @endforeach
+                    <option value="">Ninguno</option>
+                </select>
               </div>
 
               <div class="mb-3">
                 <label for="id_usuario" class="form-label">Lider</label>
-                <select id="id_usuario" class="form-select" name="id_usuario" type="text">
+                <select id="id_usuario" class="js-example-basic-single form-select" name="id_usuario" type="text">
+                  <option value="" selected disabled>Selecciona un Lider</option>
                   @foreach ($users as $user)
                     <option value="{{$user->id}}" {{($promovido->id_usuario == $user->id) ? 'selected' : 'true' }}>{{$user->name}}</option>                      
                   @endforeach
                 </select>
               </div>
-              <input class="btn btn-primary" type="submit" value="Submit">
+              <div style="text-align: center">
+                <input class="btn btn-primary" type="submit" value="Submit">
+              </div>
             </form>
         </div>
     </div>

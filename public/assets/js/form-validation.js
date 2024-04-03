@@ -160,7 +160,7 @@ $(function() {
       }
     });
 
-    $("#promovidos").validate({
+    $("#promovidos_update").validate({
       rules: {
         id_seccion: {
           required: true
@@ -174,13 +174,6 @@ $(function() {
         },
         apellido_mat: {
           required: true
-        },
-        localidad_y_domicilio: {
-          required: true
-        },
-        clave_elec: {
-          required: true,
-          minlength: 18
         },
         id_usuario: {
           required: true
@@ -198,13 +191,6 @@ $(function() {
         },
         apellido_mat: {
           required: "Introduce un apellido"
-        },
-        localidad_y_domicilio: {
-          required: "Introduce un domicilio"
-        },
-        clave_elec: {
-          required: "Introduce una clave electoral",
-          minlength: "Introduce 18 caracteres"
         },id_usuario: {
           required: "Selecciona un lider"
         }
@@ -236,5 +222,82 @@ $(function() {
         }
       }
     });
+  });
+
+  $("#promovidos").validate({
+    rules: {
+      id_seccion: {
+        required: true
+      },
+      nombre: {
+        required: true,
+        //email: true
+      },
+      apellido_pat: {
+        required: true
+      },
+      apellido_mat: {
+        required: true
+      },
+      localidad_y_domicilio: {
+        required: true
+      },
+      clave_elec: {
+        required: true,
+        minlength: 18
+      },
+      id_usuario: {
+        required: true
+      }
+    },
+    messages: {
+      id_seccion: {
+        required: "Selecciona una sección electoral",
+      },
+      nombre: {
+        required: "Introduce un nombre"
+      },
+      apellido_pat: {
+        required: "Introduce un apellido"
+      },
+      apellido_mat: {
+        required: "Introduce un apellido"
+      },
+      localidad_y_domicilio: {
+        required: "Introduce un domicilio"
+      },
+      clave_elec: {
+        required: "Introduce una clave electoral",
+        minlength: "Introduce 18 caracteres"
+      },id_usuario: {
+        required: "Selecciona un lider"
+      }
+    },
+    errorPlacement: function(error, element) {
+      error.addClass( "invalid-feedback" );
+
+      if (element.parent('.input-group').length) {
+        error.insertAfter(element.parent());
+      }
+      else if (element.prop('type') === 'radio' && element.parent('.radio-inline').length) {
+        error.insertAfter(element.parent().parent());
+      }
+      else if (element.prop('type') === 'checkbox' || element.prop('type') === 'radio') {
+        error.appendTo(element.parent().parent());
+      }
+      else {
+        error.insertAfter(element);
+      }
+    },
+    highlight: function(element, errorClass) {
+      if ($(element).prop('type') != 'checkbox' && $(element).prop('type') != 'radio') {
+        $( element ).addClass( "is-invalid" ).removeClass( "is-valid" );
+      }
+    },
+    unhighlight: function(element, errorClass) {
+      if ($(element).prop('type') != 'checkbox' && $(element).prop('type') != 'radio') {
+        $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
+      }
+    }
   });
 });
