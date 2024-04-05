@@ -38,10 +38,14 @@
               <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input id="nombre" class="form-control" name="nombre" type="text" value="{{$promovido->nombre}}">
+              </div>     
+              <div class="mb-3">
+                <label for="localidad" class="form-label">localidad</label>
+                <input id="localidad" class="form-control" name="localidad" type="text" value="{{$promovido->localidad}}">
               </div>
               <div class="mb-3">
-                <label for="localidad_y_domicilio" class="form-label">localidad y domicilio</label>
-                <input id="localidad_y_domicilio" class="form-control" name="localidad_y_domicilio" type="text" value="{{$promovido->localidad_y_domicilio}}">
+                <label for="domicilio" class="form-label">domicilio</label>
+                <input id="domicilio" class="form-control" name="domicilio" type="text" value="{{$promovido->domicilio}}">
               </div>
               <div class="mb-3">
                 <label for="clave_elec" class="form-label">Clave Elector</label>
@@ -49,18 +53,8 @@
               </div>
 
               <div class="mb-3">
-                <label for="telefono" class="form-label">Telefono Celular</label>
-                <input value="{{$promovido->telefono}}" id="tel_celular" class="form-control" name="telefono" type="text" maxlength="10">
-              </div>
-              
-              <div class="mb-3">
-                <label for="correo" class="form-label">Correo</label>
-                <input value="{{$promovido->correo}}" id="correo" class="form-control" name="correo" type="text">
-              </div>
-              
-              <div class="mb-3">
-                <label for="facebook" class="form-label">Facebook</label>
-                <input value="{{$promovido->facebook}}" id="facebook" class="form-control" name="facebook" type="text">
+                <label for="telefono" class="form-label">Telefono</label>
+                <input value="{{$promovido->telefono}}" id="telefono" class="form-control" name="telefono" type="text" maxlength="10">
               </div>
               
               <div class="mb-3">
@@ -69,32 +63,6 @@
                   <option value="" selected disabled>Selecciona una ocupacion</option>
                   @foreach ($ocupaciones as $ocupacion)
                   <option value="{{$ocupacion->id}}" {{($ocupacion->id == $promovido->id_ocupacion) ? 'selected' : '' }}>{{$ocupacion->nombre}}</option>
-                  @endforeach
-                </select>
-              </div>
-              
-              <div class="mb-3">
-                <label for="escolaridad" class="form-label">Escolaridad</label>
-                <select name="escolaridad" id="escolaridad" class="form-select">
-                  <option value="" selected disabled>Seleccione una escolaridad</option>
-                  <option value="primaria"{{('primaria' == $promovido->escolaridad) ? 'selected' : 'true' }}>Primaria</option>
-                  <option value="secundaria"{{('secundaria' == $promovido->escolaridad) ? 'selected' : 'true' }}>Secundaria</option>
-                  <option value="preparatoria"{{('preparatoria' == $promovido->escolaridad) ? 'selected' : 'true' }}>Preparatoria</option>
-                  <option value="licenciatura"{{('licenciatura' == $promovido->escolaridad) ? 'selected' : 'true' }}>Licenciatura</option>
-                  <option value="ninguna"{{('ninguna' == $promovido->escolaridad) ? 'selected' : 'true' }}>Ninguna</option>
-                </select>
-              </div>
-              
-              <div class="mb-3">
-                <label for="observaciones" class="form-label">Observaciones</label>
-                <select id="observaciones" name="observaciones[]" class="js-example-basic-multiple form-select select2-hidden-accessible form-control" data-width="100%" multiple aria-hidden="true" >
-                  @foreach ($observaciones as $observacion)
-                      <option 
-                        value="{{$observacion->id}}"
-                        {{in_array($observacion->nombre,$observacion_selected) ? 'selected' : '' }}
-                      >
-                        {{$observacion->nombre}}
-                      </option>
                   @endforeach
                 </select>
               </div>
@@ -126,7 +94,7 @@
               </div>
 
               <div class="mb-3">
-                <label for="id_usuario" class="form-label">Lider</label>
+                <label for="id_usuario" class="form-label">Cordinador/Responable</label>
                 <select id="id_usuario" class="js-example-basic-single form-select" name="id_usuario" type="text">
                   <option value="" selected disabled>Selecciona un Lider</option>
                   @foreach ($users as $user)

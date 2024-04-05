@@ -20,7 +20,7 @@ class PromovidoController extends Controller
     
     public function promovido_read(){
         $promovidos = Promovido::orderBy('id', 'desc')->paginate(10);
-        $observaciones = Observacion::all();
+        
         $usuarios = User::all();
         $ocupaciones = Ocupacion::all();
         $secciones = seccion::all();
@@ -29,34 +29,29 @@ class PromovidoController extends Controller
         $filtrados_count = $promovidos->total();
 
         $lider_selected = '';
-        $observacion_selected = '';
         $ocupacion_selected = '';
         $seccion_selected = '';
 
-        $localidad_y_domicilio = '';
+        $domicilio = '';
         $ocupacion = '';
         $escolaridad = '';
         $genero = '';
         $edad = '';
-        $observacion = '';
         return view('promovidos.read',compact(
             'promovidos',
-            'observaciones',
             'usuarios',
             'ocupaciones',
             'secciones',
 
             'lider_selected',
-            'observacion_selected',
             'ocupacion_selected',
             'seccion_selected',
 
-            'localidad_y_domicilio',
+            'domicilio',
             'ocupacion',
             'escolaridad',
             'genero',
             'edad',
-            'observacion',
 
             'allpromovidos_count',
             'filtrados_count'
@@ -74,13 +69,14 @@ class PromovidoController extends Controller
     public function promovido_store(Request $request ){
         
         //validamos la clave elector
-        $validated = $request->validate([
-            'clave_elec' =>['unique:promovidos,clave_elec']
-        ], $messages = [
-            'clave_elec.unique' => 'La clave de elector ya existe!',
-        ]);
-
         if($request->clave_elec){
+
+            $validated = $request->validate([
+                'clave_elec' =>['unique:promovidos,clave_elec']
+            ], $messages = [
+                'clave_elec.unique' => 'La clave de elector ya existe!',
+            ]);
+
             // Extraer género y fecha de nacimiento de la clave de elector
             $claveElector = $request->clave_elec;
             // Obtener fecha de nacimiento
@@ -114,6 +110,9 @@ class PromovidoController extends Controller
             }
             // Determinar el género
             $genero = strtoupper(substr($claveElector, 14, 1)); // Convertir a mayúsculas para uniformidad
+        }else {
+            $genero=null;
+            $edad=null;
         }
 
         //validamos si quieren agregar una nueva ocupacion si es agreamos la nueva  ocupacion y la asignamos
@@ -133,59 +132,57 @@ class PromovidoController extends Controller
             $request->merge(['id_promotor' => $promotor->id]);
         }
 
-        //creamos un nuevo promovido
-        $promovido = new Promovido();
-        //asignamos la sección electoral
-        $promovido->id_seccion=$request->id_seccion;
-        //asignamos nombre y apellidos
-        $promovido->nombre=$request->nombre;
-        //Asignamos localidad y domicilio, calve elector, telefono,correo,faacebook,ocupacion,escolaridad
-        $promovido->localidad_y_domicilio=$request->localidad_y_domicilio;
-        $promovido->clave_elec=$request->clave_elec;
-        $promovido->telefono=$request->telefono;
-        $promovido->correo=$request->correo;
-        $promovido->facebook=$request->facebook;
-        $promovido->id_ocupacion=$request->id_ocupacion;
-        $promovido->escolaridad=$request->escolaridad;
-        //Asignamos el genero y la edad generados anteriormente  por medio de la clave elector
-        if($request->clave_elec){
-        $promovido->genero=$genero;
-        $promovido->edad=$edad;
-        }
         //cambiamos de formato la fecha de captura y la asignamos al promovido
         if($request->fecha_captura){
             $fecha_captura = Carbon::createFromFormat('d/m/Y', $request->fecha_captura);
             $fecha_captura = $fecha_captura->format('Y-m-d');
-            $promovido->fecha_captura=$fecha_captura;
+            $request->merge(['fecha_captura' => $fecha_captura]);
         }
+
         
-        //asignamos promotor
-        $promovido->id_promotor=$request->id_promotor;
-        //Asignamos el lider al promovido
-        $promovido->id_usuario=$request->id_usuario;
-        
+        $nombreCompleto = $request->nombre . ' ' . $request->apellido_pat . ' ' . $request->apellido_mat;
+        $request->merge(['nombre' => $nombreCompleto]);
+
+        //creamos un nuevo promovido
+        $promovido = new Promovido();
+
+        $data =[
+            'id_seccion' => $request->id_seccion,
+            'nombre' => $request->nombre,
+            'localidad' => $request->localidad,
+            'domicilio' => $request->domicilio,
+            'clave_elec' => $request->clave_elec,
+            'telefono' => $request->telefono,
+            'id_ocupacion' => $request->ocupacion,
+            'fecha_captura' => $request->fecha_captura,
+            'genero' => $genero,
+            'edad' => $edad,
+            'id_promotor' => $request->id_promotor,
+            'id_usuario' => $request->id_usuario,
+        ];
+        $promovido->fill($data);
         $promovido->save();
 
-        if ($request->inputObservacion) {
-            $observacion = new Observacion();
-            $observacion->nombre = $request->inputObservacion;
-            $observacion->save();
-            
-            $observaciones_existente = $request->observaciones;
+        //if ($request->inputObservacion) {
+        //    $observacion = new Observacion();
+        //    $observacion->nombre = $request->inputObservacion;
+        //    $observacion->save();
+        //    
+        //    $observaciones_existente = $request->observaciones;
 
-            // Agregar la nueva observación a la lista existente
-            $observaciones_existente[] = strval($observacion->id);
+        //    // Agregar la nueva observación a la lista existente
+        //    $observaciones_existente[] = strval($observacion->id);
 
-            // Asignar la lista actualizada de observaciones de vuelta al objeto $request
-            $request->merge(['observaciones' => $observaciones_existente]);
-        }
+        //    // Asignar la lista actualizada de observaciones de vuelta al objeto $request
+        //    $request->merge(['observaciones' => $observaciones_existente]);
+        //}
         
         //CAPTURAR Y GUARDAR OBSERVACIONES DESPUES DE CREAR EL PROMOVIDO
-        if ($request->observaciones) {
-            foreach ($request->observaciones as $observacion) {
-                $promovido->observaciones()->attach($observacion);
-            }
-        }
+        //if ($request->observaciones) {
+        //    foreach ($request->observaciones as $observacion) {
+        //        $promovido->observaciones()->attach($observacion);
+        //    }
+        //}
 
         // Obtener el usuario autenticado
         $usuario = Auth::user();
@@ -201,11 +198,11 @@ class PromovidoController extends Controller
     public function promovido_edit(Promovido $promovido){
         $users = User::all();
         $ocupaciones = Ocupacion::all();
-        $observaciones = Observacion::all();
+        //$observaciones = Observacion::all();
         $secciones = seccion::all();
 
         $genero = $promovido->genero;
-        $observacion_selected = $promovido->observaciones->pluck('nombre','nombre')->all();
+        //$observacion_selected = $promovido->observaciones->pluck('nombre','nombre')->all();
 
         if ($promovido->fecha_captura) {
             $fecha_captura = Carbon::createFromFormat('Y-m-d', $promovido->fecha_captura);
@@ -213,7 +210,8 @@ class PromovidoController extends Controller
         }else {
             $fecha_captura = null;
         }
-        return view('promovidos.update',compact('promovido','users','genero', 'ocupaciones', 'observaciones', 'secciones','observacion_selected','fecha_captura'));
+
+        return view('promovidos.update',compact('promovido','users','genero', 'ocupaciones','secciones','fecha_captura'));
     }
     
     public function promovido_update(Promovido $promovido, Request $request){
@@ -236,20 +234,17 @@ class PromovidoController extends Controller
         $data =[
             'id_seccion' => $request->id_seccion,
             'nombre' => $request->nombre,
-            'localidad_y_domicilio' => $request->localidad_y_domicilio,
+            'localidad' => $request->localidad,
+            'domicilio' => $request->domicilio,
             'clave_elec' => $request->clave_elec,
             'telefono' => $request->telefono,
-            'correo' => $request->correo,
-            'facebook' => $request->facebook,
             'id_ocupacion' => $request->ocupacion,
-            'escolaridad' => $request->escolaridad,
             'fecha_captura' => $fecha_captura,
             'genero' => $request->genero,
             'edad' => $request->edad,
             'id_promotor' => $request->id_promotor,
             'id_usuario' => $request->id_usuario,
         ];
-        $promovido->observaciones()->sync($request->observaciones);
         $promovido->update($data);
 
         return redirect()->route('promovido.read')->with('actualizar','ok');

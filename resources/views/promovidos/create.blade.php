@@ -20,8 +20,70 @@
             <h4 class="card-title">Datos</h4>
             <form id="promovidos" method="POST" action="{{Route('promovido.store')}}" >
               @csrf
-              <div class="row">
-                <div class="mb-3 col-md-6">
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="id_usuario" class="form-label">Cordinador</label>
+                  <select id="id_usuario" class="js-example-basic-single form-select" data-width="100%" name="id_usuario" type="text">
+                    <option value="" selected disabled>Selecciona un lider</option>
+                    @foreach ($users as $user)
+                      @if ($user->rol === "responsable")
+                      <option value="{{$user->id}}" {{ old('id_usuario') == $user->id ? 'selected' : '' }}>
+                        {{$user->name}}
+                      </option>
+                      @endif                      
+                    @endforeach
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="id_promotor" class="form-label">Promotor</label>
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <select id="id_promotor" class="js-example-basic-single form-select" name="id_promotor" type="text" style="width: 100%">
+                        <option value="" selected disabled>Selecciona un Promotor</option>
+                        @foreach ($users as $user)
+                        @if ($user->rol == "responsable" || $user->rol == "promotor")
+                        <option value="{{$user->id}}" {{ old('id_usuario') == $user->id ? 'selected' : '' }}>
+                          {{$user->name}}
+                        </option>
+                        @endif                      
+                        @endforeach
+                        <option value="">Ninguno</option>
+                      </select>
+                    </div>
+                    <div class="col-auto">
+                      <button type="button" class="btn btn-primary btn-icon" onclick="mostrarPromotor()">
+                        <i data-feather="file-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div id="nuevo_promotor" class="hidden" style="margin-left: 10%">
+                    <label for="inputPromotor">Agrega un nuevo promotor</label>
+                    <input type="text" id="inputPromotor" class="form-control" name="inputPromotor" >
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <label for="apellido_pat" class="form-label">Apellido paterno</label>
+                  <input id="apellido_pat" class="form-control" name="apellido_pat" type="text" value="{{old('apellido_pat')}}">
+                </div>
+                <div class="col-md-4">
+                  <label for="apellido_mat" class="form-label">Apellido materno</label>
+                  <input id="apellido_mat" class="form-control" name="apellido_mat" type="text" value="{{old('apellido_mat')}}">
+                </div>
+                <div class="col-md-4">
+                  <label for="nombre" class="form-label">Nombre(s)</label>
+                  <input id="nombre" class="form-control" name="nombre" type="text" value="{{old('nombre')}}">
+                </div>
+              </div>
+              
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="clave_elec" class="form-label">Clave Elector</label>
+                  <input id="clave_elec" class="form-control" name="clave_elec" type="text" maxlength="18" value="{{old('clave_elec')}}">
+                </div>
+                <div class="col-md-6">
                   <label for="id_seccion" class="form-label">Sección Electoral</label>
                   <select name="id_seccion" id="id_seccion" class="js-example-basic-single form-select" style="width: 100%">
                     <option value="" disabled selected>Elige una seccion electoral</option>
@@ -34,43 +96,21 @@
                     @endforeach
                   </select>
                 </div>
-                <div class="mb-3 col-md-6">
-                  <label for="nombre" class="form-label">Nombre</label>
-                  <input id="nombre" class="form-control" name="nombre" type="text" value="{{old('nombre')}}">
-                </div>
               </div>
 
-              <div class="row">
-                <div class="mb-3 col-md-6">
-                  <label for="localidad_y_domicilio" class="form-label">localidad y domicilio</label>
-                  <input id="localidad_y_domicilio" class="form-control" name="localidad_y_domicilio" type="text" value="{{old('localidad_y_domicilio')}}">
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="localidad" class="form-label">Localidad</label>
+                  <input id="localidad" class="form-control" name="localidad" type="text" value="{{old('localidad')}}">
                 </div>
-                <div class="mb-3 col-md-6">
-                  <label for="clave_elec" class="form-label">Clave Elector</label>
-                  <input id="clave_elec" class="form-control" name="clave_elec" type="text" maxlength="18" value="{{old('clave_elec')}}">
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="mb-3 col">
-                  <label for="telefono" class="form-label">Telefono</label>
-                  <input id="telefono" class="form-control" name="telefono" type="text" maxlength="10" value="{{old('telefono')}}">
-                </div>
-                
-                <div class="mb-3 col-md-6">
-                  <label for="correo" class="form-label">Correo</label>
-                  <input id="correo" class="form-control" name="correo" type="text" value="{{old('correo')}}">
+                <div class="col-md-6">
+                  <label for="domicilio" class="form-label">Direccion</label>
+                  <input id="domicilio" class="form-control" name="domicilio" type="text" value="{{old('domicilio')}}">
                 </div>
               </div>
               
-              <div class="row">
-
-                <div class="mb-3 col">
-                  <label for="facebook" class="form-label">Facebook</label>
-                  <input id="facebook" class="form-control" name="facebook" type="text" value="{{old('facebook')}}">
-                </div>
-                
-                <div class="mb-3 col-md-6">
+              <div class="row mb-3">
+                <div class="col-md-6">
                     <label for="ocupacion" class="form-label">Ocupación</label>
                     <div class="row align-items-center">
                       <div class="col">
@@ -96,94 +136,19 @@
                       <input type="text" id="inputOcupacion" class="form-control" name="inputOcupacion" >
                     </div>
                 </div>
-
-              </div>
-                
-              <div class="row">
-                <div class="mb-3 col">
-                  <label for="escolaridad" class="form-label">Escolaridad</label>
-                  <select name="escolaridad"  class="form-select">
-                    <option value="" selected disabled>Selecciona una escolaridad</option>
-                    <option value="primaria" {{ old('escolaridad') == 'primaria' ? 'selected' : '' }}>Primaria</option>
-                    <option value="secundaria" {{ old('escolaridad') == 'secundaria' ? 'selected' : '' }}>Secundaria</option>
-                    <option value="preparatoria" {{ old('escolaridad') == 'preparatoria' ? 'selected' : '' }}>Preparatoria</option>
-                    <option value="licenciatura" {{ old('escolaridad') == 'licenciatura' ? 'selected' : '' }}>Licenciatura</option>
-                    <option value="ninguna" {{ old('escolaridad') == 'ninguna' ? 'selected' : '' }}>Ninguna</option>
-                  </select>
-                </div>
-                
-                <div class="mb-3 col">
-                  <label for="observaciones" class="form-label">Observaciones</label>
-                  <div class="row align-items-center">
-                    <div class="col">
-                      <select id="observaciones" name="observaciones[]" class="js-example-basic-multiple form-select select2-hidden-accessible form-control" data-width="100%" multiple aria-hidden="true" >
-                        @foreach ($observaciones as $observacion)
-                        <option value="{{$observacion->id}}" {{ in_array($observacion->id, old('observaciones', [])) ? 'selected' : '' }}>
-                          {{$observacion->nombre}}
-                        </option>
-                        @endforeach
-                      </select>
-                    </div>
-                    <div class="col-auto">
-                      <button type="button" class="btn btn-primary btn-icon" onclick="mostrarObservacion()">
-                        <i data-feather="file-plus"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div id="nueva_observacion" class="hidden" style="margin-left: 10%">
-                    <label for="inputObservacion">Agrega una nueva observacion</label>
-                    <input type="text" id="inputObservacion" class="form-control" name="inputObservacion" >
-                  </div>
+                <div class="col-md-6">
+                  <label for="telefono" class="form-label">Telefono</label>
+                  <input id="telefono" class="form-control" name="telefono" type="text" maxlength="10" value="{{old('telefono')}}">
                 </div>
               </div>
 
-              <div class="row">
-                <div class="mb-3 col">
+              <div class="row mb-3">
+                <div class="col">
                   <label for="fecha_captura" class="form-label">Fecha de Captura</label>
                   <input id="fecha_captura" class="form-control"  name="fecha_captura" data-inputmask-inputformat="dd/mm/yyyy" data-inputmask="'alias': 'datetime'" inputmode="numeric" value="{{ old('fecha_captura') }}">
                 </div>
-                
-                <div class="mb-3 col">
-                  <label for="id_promotor" class="form-label">Promotor</label>
-                  <div class="row align-items-center">
-                    <div class="col">
-                      <select id="id_promotor" class="js-example-basic-single form-select" name="id_promotor" type="text" style="width: 100%">
-                        <option value="" selected disabled>Selecciona un Promotor</option>
-                        @foreach ($users as $user)
-                        @if ($user->rol == "responsable" || $user->rol == "promotor")
-                        <option value="{{$user->id}}" {{ old('id_usuario') == $user->id ? 'selected' : '' }}>
-                          {{$user->name}}
-                        </option>
-                        @endif                      
-                        @endforeach
-                      </select>
-                    </div>
-                    <div class="col-auto">
-                      <button type="button" class="btn btn-primary btn-icon" onclick="mostrarPromotor()">
-                        <i data-feather="file-plus"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div id="nuevo_promotor" class="hidden" style="margin-left: 10%">
-                    <label for="inputPromotor">Agrega un nuevo promotor</label>
-                    <input type="text" id="inputPromotor" class="form-control" name="inputPromotor" >
-                  </div>
-                </div>
               </div>
 
-              <div class="mb-3">
-                <label for="id_usuario" class="form-label">Lider</label>
-                <select id="id_usuario" class="js-example-basic-single form-select" data-width="100%" name="id_usuario" type="text">
-                  <option value="" selected disabled>Selecciona un lider</option>
-                  @foreach ($users as $user)
-                    @if ($user->rol === "responsable")
-                    <option value="{{$user->id}}" {{ old('id_usuario') == $user->id ? 'selected' : '' }}>
-                      {{$user->name}}
-                    </option>
-                    @endif                      
-                  @endforeach
-                </select>
-              </div>
               <div style="text-align: center">
                 <input class="btn btn-primary" type="submit" value="Enviar formulario">
               </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\FiltroController;
+use App\Http\Controllers\graficoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PromovidoController;
 use App\Http\Controllers\LoginController;
@@ -56,6 +57,10 @@ Route::controller(PdfController::class)->group(function(){
 });
 
 Route::controller(ExcelController::class)->group(function(){
-    Route::get('/excel_show','excel_read')->name('excel.read');
-    Route::post('/excel_immport','excel_import')->name('excel.importar');
+    Route::get('/excel_show','excel_read')->name('excel.read')->middleware('can:ver-promovidos','auth');
+    Route::post('/excel_immport','excel_import')->name('excel.importar')->middleware('can:ver-promovidos','auth');
+});
+
+Route::controller(graficoController::class)->group(function(){
+    Route::get('/graficos','grafico_read')->name('grafico.read')->middleware('can:ver-promovidos','auth');
 });

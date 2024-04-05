@@ -63,12 +63,10 @@ class FiltroController extends Controller
       $lider_selected = $request->lider;
       $seccion_selected = $request->id_seccion;
 
-      $localidad_y_domicilio = $request->localidad_y_domicilio;
+      $domicilio = $request->domicilio;
       $ocupacion = $request->ocupacion;
-      $escolaridad = $request->escolaridad;
       $genero = $request->genero;
       $edad = $request->edad;
-      $observacion = $request->observacion;
 
       $usuarios = User::all();
       return view('promovidos.read',compact(
@@ -83,12 +81,10 @@ class FiltroController extends Controller
          'seccion_selected',
             
          'usuarios',
-         'localidad_y_domicilio',
+         'domicilio',
          'ocupacion',
-         'escolaridad',
          'genero',
          'edad',
-         'observacion',
 
          'allpromovidos_count',
          'filtrados_count'
@@ -105,7 +101,6 @@ class FiltroController extends Controller
         $allpromovidos_count = Promovido::count();
         $filtrados_count = $promovidos->total();
 
-        $observaciones = Observacion::all();
         $usuarios = User::all();
         $ocupaciones = Ocupacion::all();
         $secciones = seccion::all();
@@ -115,17 +110,14 @@ class FiltroController extends Controller
         $lider_selected = $request->lider;
         $seccion_selected = $request->id_seccion;
 
-        $localidad_y_domicilio = $request->localidad_y_domicilio;
+        $domicilio = $request->domicilio;
         $ocupacion = $request->ocupacion;
-        $escolaridad = $request->escolaridad;
         $genero = $request->genero;
         $edad = $request->edad;
-        $observacion = $request->observacion;
 
         $usuarios = User::all();
         return view('promovidos.read',compact(
             'promovidos',
-            'observaciones',
             'ocupaciones',
             'secciones',
 
@@ -135,12 +127,10 @@ class FiltroController extends Controller
             'seccion_selected',
             
             'usuarios',
-            'localidad_y_domicilio',
+            'domicilio',
             'ocupacion',
-            'escolaridad',
             'genero',
             'edad',
-            'observacion',
 
            'allpromovidos_count',
            'filtrados_count'

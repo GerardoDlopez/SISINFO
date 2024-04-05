@@ -9,7 +9,7 @@ class seccion extends Model
 {
     use HasFactory;
     protected $table = 'secciones';
-    public function secciones(){
-        return $this->belongsToMany('App\Models\Promovidos');
+    public function promovidos(){
+        return $this->hasMany('App\Models\Promovido','id_seccion');
     }
 }

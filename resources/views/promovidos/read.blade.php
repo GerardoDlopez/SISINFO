@@ -12,138 +12,133 @@
 
 <div class="row">
     <div id="filtro" class="col-lg-2 col-xl-2 grid-margin grid-margin-xl-0 stretch-card" style="display: none">
-        <div class="card">
-            <div class="card-body">
-                <div class="mb-3">
-                    <h6 class="card-title">busqueda individual</h6>
-                    <form action="{{Route('buscador')}}" method="get">
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">busca al promovido por su nombre</label>
-                            <input type="text"  name="nombre" class="form-control">
-                        </div>
-                            <div style="text-align: center">
-                            <div class="d-grid gap-1 mb-3">
-                                <button class="btn btn-success btn-sm" type="submit">BUSCAR</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <h6 class="card-title">Filtros</h6>
-                <form action="{{Route('filtro')}}" method="get">
-                    <div class="mb-3">
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="id_seccion" class="form-label">Sección Electoral</label>
-                                <select name="id_seccion" id="id_seccion" class="js-example-basic-single form-select" data-width="100%">
-                                    <option value="" disabled selected>Elige una seccion electoral</option>
-                                  @foreach ($secciones as $seccion)
-                                      <option value="{{$seccion->id}}"
-                                        {{($seccion_selected == $seccion->id) ? 'selected' : 'true' }}
-                                        >
-                                        {{$seccion->seccion}} {{$seccion->nombre}}
-                                      </option>
-                                  @endforeach
-                                </select>
-                              </div>
-
-                            <div class="mb-3 col">
-                                <label for="" class="form-label">Lideres</label>
-                                <select name="lider" id="" class="js-example-basic-single form-select" data-width="100%">
-                                    <option value="" selected disabled>Selecciona un lider</option>
-                                    @foreach ($usuarios as $usuario)
-                                    <option value="{{$usuario->id}}"{{($usuario->id == $lider_selected) ? 'selected' : 'true' }}>{{$usuario->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="mb-3 col">
-                                <label for="localidad_y_domicilio" class="form-label">Localidadad y domicilio</label>
-                                <input type="text" class="form-control"  name="localidad_y_domicilio" value="{{$localidad_y_domicilio}}">
-                            </div>
-
-                            <div class="mb-3 col">
-                                <label for="ocupacion" class="form-label">Ocupación</label>
-                                <select name="ocupacion" class="js-example-basic-single form-select" data-width="100%">
-                                    <option value="" selected disabled>Selecciona una ocupacion</option>
-                                    @foreach ($ocupaciones as $ocupacion)
-                                        <option value="{{$ocupacion->id}}" {{($ocupacion->id == $ocupacion_selected) ? 'selected' : 'true' }} >{{$ocupacion->nombre}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="mb-3 col">
-                                <label for="escolaridad" class="form-label">Escolaridad</label>
-                                <select name="escolaridad" id="" class="form-select" data-width="100%">
-                                    <option value="" selected disabled>Selecciona una escolaridad</option>
-                                    <option value="primaria" {{('primaria' == $escolaridad) ? 'selected' : 'true' }}>Primaria</option>
-                                    <option value="secundaria" {{('secundaria' == $escolaridad) ? 'selected' : 'true' }}>Secundaria</option>
-                                    <option value="preparatoria" {{('preparatoria' == $escolaridad) ? 'selected' : 'true' }}>Preparatoria</option>
-                                    <option value="licenciatura"{{('licenciatura' == $escolaridad) ? 'selected' : 'true' }}>Licenciatura</option>
-                                    <option value="ninguna">Ninguna</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-3 col">
-                                <label for="observaciones" class="form-label">Observaciones</label>
-                                <select name="observacion" id="" class="js-example-basic-single form-select" data-width="100%">
-                                    <option value="" selected disabled>Selecciona una observación</option>
-                                    @foreach ($observaciones as $observacion)
-                                    <option value="{{$observacion->nombre}}"{{($observacion->nombre == $observacion_selected) ? 'selected' : 'true' }}>{{$observacion->nombre}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="mb-3 col" >
-                                <label class="form-label" for="genero">Genero</label>
-                                <div>
-                                  <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" name="genero" id="gender1" value="H" {{($genero == "H") ? 'checked' : 'true' }}>
-                                    <label class="form-check-label">
-                                      H
-                                    </label>
-                                  </div>
-                                  <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" name="genero" id="gender2" value="M" {{($genero == "M") ? 'checked' : 'true' }}>
-                                    <label class="form-check-label">
-                                      M
-                                    </label>
-                                  </div>
-                                  <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" name="genero" id="gender3" value="otro" {{($genero == "Other") ? 'checked' : 'true' }}>
-                                    <label class="form-check-label">
-                                      Otro
-                                    </label>
-                                  </div>
-                                  <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" name="genero" id="gender4" value="" {{($genero == "") ? 'checked' : 'true' }}>
-                                    <label class="form-check-label">
-                                      Ninguno
-                                    </label>
-                                  </div>
+        
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h6 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Busqueda individual
+                            </button>
+                        </h6>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <form action="{{Route('buscador')}}" method="get">
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">busca al promovido por su nombre</label>
+                                    <input type="text"  name="nombre" class="form-control">
                                 </div>
-                            </div>
-
-                            <div class="mb-3 col">
-                                <label for="edad" class="form-label">Edad</label>
-                                <input type="text" class="form-control"  name="edad" value="{{$edad}}">
+                                <div style="text-align: center">
+                                    <div class="d-grid gap-1 mb-3">
+                                        <button class="btn btn-success btn-sm" type="submit">BUSCAR</button>
+                                    </div>
+                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="d-grid gap-1 mb-3">
-                        <button class="btn btn-success btn-sm" type="submit">FILTRAR</button>
+
+                    <div class="accordion-item">
+                        <h6 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseOne">
+                                Filtros                            
+                            </button>
+                        </h6>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <form action="{{Route('filtro')}}" method="get">
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="mb-3">
+                                                <label for="id_seccion" class="form-label">Sección Electoral</label>
+                                                <select name="id_seccion" id="id_seccion" class="js-example-basic-single form-select" data-width="100%">
+                                                    <option value="" disabled selected>Elige una seccion electoral</option>
+                                                  @foreach ($secciones as $seccion)
+                                                      <option value="{{$seccion->id}}"
+                                                        {{($seccion_selected == $seccion->id) ? 'selected' : 'true' }}
+                                                        >
+                                                        {{$seccion->seccion}} {{$seccion->nombre}}
+                                                      </option>
+                                                  @endforeach
+                                                </select>
+                                              </div>
+                
+                                            <div class="mb-3 col">
+                                                <label for="" class="form-label">Responsable/Cordinador</label>
+                                                <select name="lider" id="" class="js-example-basic-single form-select" data-width="100%">
+                                                    <option value="" selected disabled>Selecciona un lider</option>
+                                                    @foreach ($usuarios as $usuario)
+                                                    <option value="{{$usuario->id}}"{{($usuario->id == $lider_selected) ? 'selected' : 'true' }}>{{$usuario->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                
+                                        <div class="row">
+                                            <div class="mb-3 col">
+                                                <label for="domicilio" class="form-label">domicilio</label>
+                                                <input type="text" class="form-control"  name="domicilio" value="{{$domicilio}}">
+                                            </div>
+                
+                                            <div class="mb-3 col">
+                                                <label for="ocupacion" class="form-label">Ocupación</label>
+                                                <select name="ocupacion" class="js-example-basic-single form-select" data-width="100%">
+                                                    <option value="" selected disabled>Selecciona una ocupacion</option>
+                                                    @foreach ($ocupaciones as $ocupacion)
+                                                        <option value="{{$ocupacion->id}}" {{($ocupacion->id == $ocupacion_selected) ? 'selected' : 'true' }} >{{$ocupacion->nombre}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                
+                                        <div class="row mb-3">
+                                            <div class="col md-6" >
+                                                <label class="form-label" for="genero">Genero</label>
+                                                <div>
+                                                  <div class="form-check form-check-inline">
+                                                    <input type="radio" class="form-check-input" name="genero" id="gender1" value="H" {{($genero == "H") ? 'checked' : 'true' }}>
+                                                    <label class="form-check-label">
+                                                      H
+                                                    </label>
+                                                  </div>
+                                                  <div class="form-check form-check-inline">
+                                                    <input type="radio" class="form-check-input" name="genero" id="gender2" value="M" {{($genero == "M") ? 'checked' : 'true' }}>
+                                                    <label class="form-check-label">
+                                                      M
+                                                    </label>
+                                                  </div>
+                                                  <div class="form-check form-check-inline">
+                                                    <input type="radio" class="form-check-input" name="genero" id="gender3" value="otro" {{($genero == "Other") ? 'checked' : 'true' }}>
+                                                    <label class="form-check-label">
+                                                      Otro
+                                                    </label>
+                                                  </div>
+                                                  <div class="form-check form-check-inline">
+                                                    <input type="radio" class="form-check-input" name="genero" id="gender4" value="" {{($genero == "") ? 'checked' : 'true' }}>
+                                                    <label class="form-check-label">
+                                                      Ninguno
+                                                    </label>
+                                                  </div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="col md-6">
+                                                <label for="edad" class="form-label">Edad</label>
+                                                <input type="text" class="form-control"  name="edad" value="{{$edad}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-grid gap-1 mb-3">
+                                        <button class="btn btn-success btn-sm" type="submit">FILTRAR</button>
+                                    </div>
+                                    <div class="d-grid gap-1 mb-3">
+                                        <button class="btn btn-success btn-sm" type="submit" formaction="{{ route('pdf') }}"> generar pdf</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="d-grid gap-1 mb-3">
-                        <button class="btn btn-success btn-sm" type="submit" formaction="{{ route('pdf') }}"> generar pdf</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+                </div>
+                
     </div>
 
     <div id="lista" class="">
@@ -152,8 +147,8 @@
                 <h6 class="card-title">Promovidos</h6>
                 <div class="row mb-3">
                     <div style="text-align: left" class="col">
-                        <a onclick="filtro()" class="btn btn-primary btn-icon-text"><i class="btn-icon-prepend" data-feather="settings"></i>Mostrar filltros</a>
-                        <a class="btn btn-primary btn-icon-text" href="{{Route('promovido.read')}}">Limpiar filtros</a>
+                        <a onclick="filtro()" class="btn btn-primary btn-icon"><i class="btn-icon-prepend" data-feather="settings"></i></a>
+                        <a class="btn btn-primary btn-icon" href="{{Route('promovido.read')}}"><i class="btn-icon-prepend" data-feather="refresh-ccw"></i></a>
                     </div>
                     <div style="text-align: center" class="col">
                         <a href="{{Route('promovido.create')}}" class="btn btn-success btn-icon-text" style="text-align: center"><i  class="btn-icon-prepend" data-feather="file-plus"></i>Agregar</a>
@@ -168,7 +163,8 @@
                             <tr>
                                 <th>Sección</th>
                                 <th>Nombre</th>
-                                <th>Localidad y domicilio</th>
+                                <th>Localidad</th>
+                                <th>Domicilio</th>
                                 <th>Clave Elector</th>
                                 <th>Telefono</th>
                                 <th>Fecha de Captura</th>
@@ -184,8 +180,8 @@
                                 <tr>
                                     <td>{{$promovido->secciones->seccion}}</td>
                                     <td>{{$promovido->nombre}}</td>
-                                    <td>{{$promovido->localidad_y_domicilio}}</td>
-                                    <td>{{$promovido->clave_elec}}</td>
+                                    <td>{{$promovido->localidad}}</td>
+                                    <td>{{$promovido->domicilio}}</td>                                    <td>{{$promovido->clave_elec}}</td>
                                     <td>{{$promovido->telefono}}</td>
                                     <td>{{$promovido->fecha_captura}}</td>
                                     <td>{{$promovido->genero}}</td>

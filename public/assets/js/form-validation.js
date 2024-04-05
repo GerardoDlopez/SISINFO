@@ -169,12 +169,6 @@ $(function() {
           required: true,
           //email: true
         },
-        apellido_pat: {
-          required: true
-        },
-        apellido_mat: {
-          required: true
-        },
         id_usuario: {
           required: true
         }
@@ -186,12 +180,7 @@ $(function() {
         nombre: {
           required: "Introduce un nombre"
         },
-        apellido_pat: {
-          required: "Introduce un apellido"
-        },
-        apellido_mat: {
-          required: "Introduce un apellido"
-        },id_usuario: {
+        id_usuario: {
           required: "Selecciona un lider"
         }
       },
@@ -231,20 +220,6 @@ $(function() {
       },
       nombre: {
         required: true,
-        //email: true
-      },
-      apellido_pat: {
-        required: true
-      },
-      apellido_mat: {
-        required: true
-      },
-      localidad_y_domicilio: {
-        required: true
-      },
-      clave_elec: {
-        required: true,
-        minlength: 18
       },
       id_usuario: {
         required: true
@@ -256,19 +231,6 @@ $(function() {
       },
       nombre: {
         required: "Introduce un nombre"
-      },
-      apellido_pat: {
-        required: "Introduce un apellido"
-      },
-      apellido_mat: {
-        required: "Introduce un apellido"
-      },
-      localidad_y_domicilio: {
-        required: "Introduce un domicilio"
-      },
-      clave_elec: {
-        required: "Introduce una clave electoral",
-        minlength: "Introduce 18 caracteres"
       },id_usuario: {
         required: "Selecciona un lider"
       }

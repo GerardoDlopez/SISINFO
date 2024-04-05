@@ -57,6 +57,15 @@
             </a>
           </li>
         @endcan
+        @can('ver-promovidos')    
+        <li  class="nav-item nav-category">Gráficos</li>
+          <li class="nav-item ">
+            <a href="{{Route('grafico.read')}}" class="nav-link">
+              <i class="link-icon" data-feather="bar-chart-2"></i>
+              <span class="link-title">Mostrar graficos</span>
+            </a>
+          </li>
+        @endcan
     </ul>
   </div>
 </nav>
