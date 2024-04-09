@@ -69,7 +69,7 @@ class PromovidosImport implements ToModel, WithHeadingRow
         return new Promovido([
             'nombre' => $row['nombre'],
             'id_seccion' => $seccion->id,
-            'localidad_y_domicilio' => $row['direccion'] ?? null,
+            'domicilio' => $row['direccion'] ?? null,
             'genero' => $sexo,
             'edad' => $row['edad'] ?? null,
             'telefono' => $row['telefono'] ?? null,

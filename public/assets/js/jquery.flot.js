@@ -69,20 +69,7 @@ $(function() {
 
 
   // Bar Chart
-  $.plot($('#flotBar'), [
-    {
-      label: 'Visits',
-      data: [
-        [ 6, 156 ], [ 7, 195 ], [ 8, 171 ], [ 9, 211 ], [ 10, 150 ], [ 11, 169 ], [ 12, 173 ], [ 13, 200 ], [ 14, 233 ], [ 15, 161 ]
-      ]
-    },
-    {
-      label: 'Returning visits',
-      data: [
-        [ 6, 24 ], [ 7, 20 ], [ 8, 31 ], [ 9, 4 ], [ 10, 92 ], [ 11, 87 ], [ 12, 28 ], [ 13, 21 ], [ 14, 80 ], [ 15, 76 ]
-      ]
-    }
-  ], {
+  $.plot($('#flotBar'), [window.data,window.data2], {
     series: {
       shadowSize: 0,
       bars: {
@@ -102,7 +89,7 @@ $(function() {
       clickable: true
     },
 
-    xaxis: { tickDecimals: 2, tickColor: colors.gridBorder },
+    xaxis: { tickColor: colors.gridBorder },
     yaxis: { tickColor: colors.gridBorder },
     legend: { backgroundColor: colors.cardBg },
 
@@ -161,7 +148,14 @@ $(function() {
 
 
   // Pie Chart
-  $.plot($('#flotPie'), datos, {
+  $.plot($('#flotPie'),[
+    { label: 'Series1', data: 77 },
+    { label: 'Series2', data: 81 },
+    { label: 'Series3', data: 46 },
+    { label: 'Series4', data: 35 },
+    { label: 'Series5', data: 79 },
+    { label: 'Series6', data: 84 },
+  ], {
     series: {
       shadowSize: 0,
       pie: {

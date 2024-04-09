@@ -9,19 +9,20 @@
 @section('content')
 <div class="page-content d-flex align-items-center justify-content-center">
 
-  <div class="row w-100 mx-0 auth-page">
+  <div class="row w-100 mx-0 auth-page" >
     <div class="col col-xl-6 mx-auto">
       <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="login-container">
+        <div class="card-body" >
+          <div class="row" >
+            <div class="login-container"style="border: 2px solid red;" >
               <div class="logo">
-                  <img src="{{asset('assets/imgs/hormiga_logo.png')}}" alt="Logo de Hormigas 2024">
                   <img src="{{asset('assets/imgs/logo_bgwhite.png')}}" alt="Logo de Hormigas 2024">
+                  <img src="{{asset('assets/imgs/hormiga_logo.png')}}" alt="Logo de Hormigas 2024">
               </div>
                 <form class="login-form" action="{{Route('login_store')}}" method="post" id="login">
                   @csrf
-                    <h2>HORMIGAS 2024</h2>
+                    <h2>HORMIGUERO</h2>
+                    <h2 style="font-size: 1rem">CACAHOATÁN 2024</h2>
                     <div class="input-group">
                         <label for="email">Correo</label>
                         <input type="text" id="email" name="email" required>

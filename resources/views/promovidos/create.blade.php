@@ -27,7 +27,7 @@
                     <option value="" selected disabled>Selecciona un lider</option>
                     @foreach ($users as $user)
                       @if ($user->rol === "responsable")
-                      <option value="{{$user->id}}" {{ old('id_usuario') == $user->id ? 'selected' : '' }}>
+                      <option value="{{$user->id}}" >
                         {{$user->name}}
                       </option>
                       @endif                      
@@ -42,7 +42,7 @@
                         <option value="" selected disabled>Selecciona un Promotor</option>
                         @foreach ($users as $user)
                         @if ($user->rol == "responsable" || $user->rol == "promotor")
-                        <option value="{{$user->id}}" {{ old('id_usuario') == $user->id ? 'selected' : '' }}>
+                        <option value="{{$user->id}}" >
                           {{$user->name}}
                         </option>
                         @endif                      
@@ -66,31 +66,29 @@
               <div class="row mb-3">
                 <div class="col-md-4">
                   <label for="apellido_pat" class="form-label">Apellido paterno</label>
-                  <input id="apellido_pat" class="form-control" name="apellido_pat" type="text" value="{{old('apellido_pat')}}">
+                  <input id="apellido_pat" class="form-control" name="apellido_pat" type="text">
                 </div>
                 <div class="col-md-4">
                   <label for="apellido_mat" class="form-label">Apellido materno</label>
-                  <input id="apellido_mat" class="form-control" name="apellido_mat" type="text" value="{{old('apellido_mat')}}">
+                  <input id="apellido_mat" class="form-control" name="apellido_mat" type="text">
                 </div>
                 <div class="col-md-4">
                   <label for="nombre" class="form-label">Nombre(s)</label>
-                  <input id="nombre" class="form-control" name="nombre" type="text" value="{{old('nombre')}}">
+                  <input id="nombre" class="form-control" name="nombre" type="text" >
                 </div>
               </div>
               
               <div class="row mb-3">
                 <div class="col-md-6">
                   <label for="clave_elec" class="form-label">Clave Elector</label>
-                  <input id="clave_elec" class="form-control" name="clave_elec" type="text" maxlength="18" value="{{old('clave_elec')}}">
+                  <input id="clave_elec" class="form-control" name="clave_elec" type="text" maxlength="18" >
                 </div>
                 <div class="col-md-6">
                   <label for="id_seccion" class="form-label">Sección Electoral</label>
                   <select name="id_seccion" id="id_seccion" class="js-example-basic-single form-select" style="width: 100%">
                     <option value="" disabled selected>Elige una seccion electoral</option>
                     @foreach ($secciones as $seccion)
-                    <option value="{{$seccion->id}}"
-                      {{ old('id_seccion') == $seccion->id ? 'selected' : '' }}
-                      >
+                    <option value="{{$seccion->id}}">
                       {{$seccion->seccion}} {{$seccion->nombre}}
                     </option>
                     @endforeach
@@ -101,11 +99,11 @@
               <div class="row mb-3">
                 <div class="col-md-6">
                   <label for="localidad" class="form-label">Localidad</label>
-                  <input id="localidad" class="form-control" name="localidad" type="text" value="{{old('localidad')}}">
+                  <input id="localidad" class="form-control" name="localidad" type="text">
                 </div>
                 <div class="col-md-6">
                   <label for="domicilio" class="form-label">Direccion</label>
-                  <input id="domicilio" class="form-control" name="domicilio" type="text" value="{{old('domicilio')}}">
+                  <input id="domicilio" class="form-control" name="domicilio" type="text" >
                 </div>
               </div>
               
@@ -117,35 +115,17 @@
                         <select id="ocupacion" class="js-example-basic-single form-select" name="id_ocupacion" type="text" style="width: 100%">
                           <option value="">Selecciona una ocupación</option>
                           @foreach ($ocupaciones as $ocupacion)
-                          <option value="{{$ocupacion->id}}"
-                            {{ old('id_ocupacion') == $ocupacion->id ? 'selected' : '' }}
-                            >
+                          <option value="{{$ocupacion->id}}">
                             {{$ocupacion->nombre}}
                           </option>                      
                           @endforeach
                         </select>
                       </div>
-                      <div class="col-auto">
-                        <button type="button" class="btn btn-primary btn-icon" onclick="mostrarInput()">
-                          <i data-feather="file-plus"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <div id="nueva_ocupacion" class="hidden" style="margin-left: 10%">
-                      <label for="inputOcupacion">Agrega una nueva ocupación</label>
-                      <input type="text" id="inputOcupacion" class="form-control" name="inputOcupacion" >
                     </div>
                 </div>
                 <div class="col-md-6">
                   <label for="telefono" class="form-label">Telefono</label>
-                  <input id="telefono" class="form-control" name="telefono" type="text" maxlength="10" value="{{old('telefono')}}">
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col">
-                  <label for="fecha_captura" class="form-label">Fecha de Captura</label>
-                  <input id="fecha_captura" class="form-control"  name="fecha_captura" data-inputmask-inputformat="dd/mm/yyyy" data-inputmask="'alias': 'datetime'" inputmode="numeric" value="{{ old('fecha_captura') }}">
+                  <input id="telefono" class="form-control" name="telefono" type="text">
                 </div>
               </div>
 
@@ -203,26 +183,9 @@
 
     <!--mostrar input para agregar una nueva -->
     <script>
-     function mostrarInput() {
-        var inputDiv = document.getElementById('nueva_ocupacion');
-        if (inputDiv.classList == 'hidden') {
-            inputDiv.classList.remove('hidden');
-        } else {
-            inputDiv.classList.add('hidden');
-        }
-      }
 
       function mostrarPromotor() {
         var inputDiv = document.getElementById('nuevo_promotor');
-        if (inputDiv.classList == 'hidden') {
-            inputDiv.classList.remove('hidden');
-        } else {
-            inputDiv.classList.add('hidden');
-        }
-      }
-      
-      function mostrarObservacion() {
-        var inputDiv = document.getElementById('nueva_observacion');
         if (inputDiv.classList == 'hidden') {
             inputDiv.classList.remove('hidden');
         } else {

@@ -13,8 +13,10 @@ class graficoController extends Controller
         foreach ($secciones as $seccion) {
         $masculinos = DB::table('promovidos')->where('id_seccion', $seccion->id)->where('genero', 'M')->count();
         $femeninos = DB::table('promovidos')->where('id_seccion', $seccion->id)->where('genero', 'H')->count();
-
-        $data[] = ['label' => $seccion->seccion, 'data' => $seccion->promovidos_count];
+        
+        $labels[]=$seccion->seccion;
+        $promovidos[] =$seccion->promovidos_count;
+        $meta[] = $seccion->meta;
         // Verificar si la sección tiene promovidos antes de calcular el porcentaje
         if ($seccion->promovidos_count > 0) {
             
@@ -33,6 +35,6 @@ class graficoController extends Controller
             $seccion->porcentaje_femenino = 0;
         }
         }
-        return view('graficos.read',compact('secciones','data'));
+        return view('graficos.read',compact('secciones','labels','promovidos','meta'));
     }
 }

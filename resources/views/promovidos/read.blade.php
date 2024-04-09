@@ -37,6 +37,7 @@
                         </div>
                     </div>
 
+                    <form action="{{Route('filtro')}}" method="get">
                     <div class="accordion-item">
                         <h6 class="accordion-header" id="headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseOne">
@@ -45,7 +46,6 @@
                         </h6>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                <form action="{{Route('filtro')}}" method="get">
                                     <div class="mb-3">
                                         <div class="row">
                                             <div class="mb-3">
@@ -130,13 +130,13 @@
                                     <div class="d-grid gap-1 mb-3">
                                         <button class="btn btn-success btn-sm" type="submit">FILTRAR</button>
                                     </div>
-                                    <div class="d-grid gap-1 mb-3">
-                                        <button class="btn btn-success btn-sm" type="submit" formaction="{{ route('pdf') }}"> generar pdf</button>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="d-grid gap-1 m-3">
+                            <button class="btn btn-success btn-sm" type="submit" formaction="{{ route('pdf') }}"> generar pdf</button>
+                        </div>
+                    </form>
                 </div>
                 
     </div>

@@ -12,10 +12,8 @@
   <div class="col-xl-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h6 class="card-title">Pie chart</h6>
-        <div class="flot-chart-wrapper">
-          <div class="flot-chart" id="flotPie"></div>
-        </div>
+        <h6 class="card-title">Bar chart</h6>
+        <canvas id="chartjsBar"></canvas>
       </div>
     </div>
   </div>
@@ -64,21 +62,14 @@
 @endsection
 
 @push('plugin-scripts')
-  <script src="{{ asset('assets/plugins/jquery.flot/jquery.flot.js') }}"></script>
-  <script src="{{ asset('assets/plugins/jquery.flot/jquery.flot.resize.js') }}"></script>
-  <script src="{{ asset('assets/plugins/jquery.flot/jquery.flot.pie.js') }}"></script>
-  <script src="{{ asset('assets/plugins/jquery.flot/jquery.flot.categories.js') }}"></script>
+  <script src="{{ asset('assets/plugins/chartjs/chart.umd.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
 <script>
-   var datos = <?php echo json_encode($data); ?>;
-  console.log(datos);
-  //$(document).ready(function() {
-  //    $.plot($('#flotPie'), data, {
-  //        // Configuración del gráfico de pastel
-  //    });
-  //});
+  window.labels = @json($labels); // Convertir la variable PHP $data a JSON y asignarla como una propiedad del objeto window
+  window.promovidos = @json($promovidos); // Convertir la variable PHP $data a JSON y asignarla como una propiedad del objeto window
+  window.meta = @json($meta);
 </script>
-<script src="{{ asset('assets/js/jquery.flot.js') }}"></script>
+<script src="{{ asset('assets/js/chartjs.js') }}"></script>
 @endpush

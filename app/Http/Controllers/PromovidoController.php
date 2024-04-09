@@ -67,16 +67,31 @@ class PromovidoController extends Controller
     }
 
     public function promovido_store(Request $request ){
-        
+
+        $nombreCompleto = $request->nombre . ' ' . $request->apellido_pat . ' ' . $request->apellido_mat;
+        $claveElec = $request->clave_elec;
+        $request->merge(['nombre' => $nombreCompleto]);
+
+        $duplicados = Promovido::whereNotNull('clave_elec') // No traer registros con 'clave_elec' nulo
+                      ->whereNotNull('nombre')     // No traer registros con 'nombre' nulo
+                      ->where(function($query) use ($claveElec, $nombreCompleto) {
+                          $query->where('clave_elec', $claveElec)
+                                ->orWhere('nombre', $nombreCompleto);
+                      })
+                      ->get();
+
+        if ($duplicados->isNotEmpty()) {
+            $mensaje = 'Promovido ya existente en la base de datos:';
+            foreach ($duplicados as $duplicado) {
+                $mensaje .= " Clave_elec: $duplicado->clave_elec, Nombre: $duplicado->nombre";
+            }
+            return redirect()->back()->withInput()->withErrors(['clave_elec' => "Error: $mensaje "]);
+        }
+
         //validamos la clave elector
         if($request->clave_elec){
-
-            $validated = $request->validate([
-                'clave_elec' =>['unique:promovidos,clave_elec']
-            ], $messages = [
-                'clave_elec.unique' => 'La clave de elector ya existe!',
-            ]);
-
+            
+            $estatus_credencial = 'valida';
             // Extraer género y fecha de nacimiento de la clave de elector
             $claveElector = $request->clave_elec;
             // Obtener fecha de nacimiento
@@ -86,18 +101,12 @@ class PromovidoController extends Controller
 
             $anioCompleto = ($anio >= 0 && $anio <= 24) ? "20$anio" : "19$anio";
 
-            // Validar que los valores de día, mes y año sean numéricos y estén dentro de rangos válidos
-            if (!is_numeric($dia) || !is_numeric($mes) || !is_numeric($anio) ||
-            $dia < 1 || $dia > 31 || $mes < 1 || $mes > 12 || $anio < 0 || $anio > 99) {
-            return redirect()->back()->withInput()->withErrors(['clave_elec' => 'Error: Revisa la clave de elector contiene una fecha de nacimiento invalida']);
-            }
-
             // Validar año para personas nacidas después del 2000
             $fechaNacimiento = "$anioCompleto-$mes-$dia"; // Para años desde 00 hasta 
 
             // Validar que la fecha de nacimiento sea una fecha válida
             if (!checkdate($mes, $dia, $anioCompleto)) {
-                return redirect()->back()->withInput()->withErrors(['clave_elec' => 'Error: Revista la clave elector, los datos para mes, dia y año no son validos']);
+            $estatus_credencial = 'invalida';
             }
 
             // Calcular edad
@@ -106,21 +115,14 @@ class PromovidoController extends Controller
 
             // Validar que la edad esté dentro de un rango esperado (opcional)
             if ($edad < 0 || $edad > 150) {
-                return redirect()->back()->withInput()->withErrors(['clave_elec' => 'Error: Revista la clave elector, los datos para mes, dia y año no son validos']);
+                $estatus_credencial = 'invalida';
             }
             // Determinar el género
             $genero = strtoupper(substr($claveElector, 14, 1)); // Convertir a mayúsculas para uniformidad
         }else {
             $genero=null;
             $edad=null;
-        }
-
-        //validamos si quieren agregar una nueva ocupacion si es agreamos la nueva  ocupacion y la asignamos
-        if($request->inputOcupacion){
-            $ocupacion = new Ocupacion();
-            $ocupacion->nombre = $request->inputOcupacion;
-            $ocupacion->save();
-            $request->merge(['id_ocupacion' => $ocupacion->id]);
+            $estatus_credencial=null;
         }
 
         if($request->inputPromotor){
@@ -131,17 +133,10 @@ class PromovidoController extends Controller
             $promotor->save();
             $request->merge(['id_promotor' => $promotor->id]);
         }
-
-        //cambiamos de formato la fecha de captura y la asignamos al promovido
-        if($request->fecha_captura){
-            $fecha_captura = Carbon::createFromFormat('d/m/Y', $request->fecha_captura);
-            $fecha_captura = $fecha_captura->format('Y-m-d');
-            $request->merge(['fecha_captura' => $fecha_captura]);
-        }
-
         
-        $nombreCompleto = $request->nombre . ' ' . $request->apellido_pat . ' ' . $request->apellido_mat;
-        $request->merge(['nombre' => $nombreCompleto]);
+        $fecha_captura = Carbon::now()->toDateString();
+        
+        
 
         //creamos un nuevo promovido
         $promovido = new Promovido();
@@ -154,35 +149,16 @@ class PromovidoController extends Controller
             'clave_elec' => $request->clave_elec,
             'telefono' => $request->telefono,
             'id_ocupacion' => $request->ocupacion,
-            'fecha_captura' => $request->fecha_captura,
+            'fecha_captura' => $fecha_captura,
             'genero' => $genero,
             'edad' => $edad,
             'id_promotor' => $request->id_promotor,
             'id_usuario' => $request->id_usuario,
+            'estatus_credencial' => $estatus_credencial,
         ];
+
         $promovido->fill($data);
         $promovido->save();
-
-        //if ($request->inputObservacion) {
-        //    $observacion = new Observacion();
-        //    $observacion->nombre = $request->inputObservacion;
-        //    $observacion->save();
-        //    
-        //    $observaciones_existente = $request->observaciones;
-
-        //    // Agregar la nueva observación a la lista existente
-        //    $observaciones_existente[] = strval($observacion->id);
-
-        //    // Asignar la lista actualizada de observaciones de vuelta al objeto $request
-        //    $request->merge(['observaciones' => $observaciones_existente]);
-        //}
-        
-        //CAPTURAR Y GUARDAR OBSERVACIONES DESPUES DE CREAR EL PROMOVIDO
-        //if ($request->observaciones) {
-        //    foreach ($request->observaciones as $observacion) {
-        //        $promovido->observaciones()->attach($observacion);
-        //    }
-        //}
 
         // Obtener el usuario autenticado
         $usuario = Auth::user();

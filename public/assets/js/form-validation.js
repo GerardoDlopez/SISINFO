@@ -221,6 +221,9 @@ $(function() {
       nombre: {
         required: true,
       },
+      apellido_pat: {
+        required: true,
+      },
       id_usuario: {
         required: true
       }
@@ -231,7 +234,11 @@ $(function() {
       },
       nombre: {
         required: "Introduce un nombre"
-      },id_usuario: {
+      },
+      apellido_pat: {
+        required: "Introduce un apellido paterno"
+      },
+      id_usuario: {
         required: "Selecciona un lider"
       }
     },
