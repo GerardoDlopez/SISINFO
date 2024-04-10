@@ -63,4 +63,6 @@ Route::controller(ExcelController::class)->group(function(){
 
 Route::controller(graficoController::class)->group(function(){
     Route::get('/graficos','grafico_read')->name('grafico.read')->middleware('can:ver-promovidos','auth');
+    Route::put('/graficos_meta/{seccion}','meta')->name('meta')->middleware('can:ver-promovidos','auth');
+    Route::get('/grafica_votos','votos')->name('votos')->middleware('can:ver-promovidos','auth');
 });

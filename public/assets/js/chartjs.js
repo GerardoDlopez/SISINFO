@@ -29,7 +29,7 @@ $(function() {
   if($('#chartjsBar').length) {new Chart($("#chartjsBar"), {
     type: 'bar',
     data: {
-      labels: labels,
+      labels: labels.map(label => label.split(' ')[0]),
       datasets: [
         
          {
@@ -43,17 +43,75 @@ $(function() {
           data: meta,
           backgroundColor: "red",
           borderWidth: 1,
-    
         },
        
       ],
     },
     options: {
       plugins: {
+        tooltip: {
+          enabled: true,
+          mode: 'index',
+          callbacks: {
+            title: function(tooltipItems) {
+              // Accede al nombre completo del dataset desde la variable 'labels'
+              return labels[tooltipItems[0].dataIndex];
+          }
+        }
+        }
       },
       scales: {
           x: {
               stacked: true, // Apila las barras horizontalmente
+              title: {
+                display: true,
+              }
+          }
+      },
+  }
+    });
+  }
+
+  if($('#voto').length) {new Chart($("#voto"), {
+    type: 'bar',
+    data: {
+      labels: labels.map(label => label.split(' ')[0]),
+      datasets: [
+        
+         {
+          label: "votos",
+          data: votos,
+          backgroundColor: "blue",
+          borderWidth: 1,
+        },
+        {
+          label: "promovidos",
+          data: promovidos,
+          backgroundColor: "red",
+          borderWidth: 1,
+        },
+       
+      ],
+    },
+    options: {
+      plugins: {
+        tooltip: {
+          enabled: true,
+          mode: 'index',
+          callbacks: {
+            title: function(tooltipItems) {
+              // Accede al nombre completo del dataset desde la variable 'labels'
+              return labels[tooltipItems[0].dataIndex];
+          }
+        }
+        }
+      },
+      scales: {
+          x: {
+              stacked: true, // Apila las barras horizontalmente
+              title: {
+                display: true,
+              }
           }
       },
   }

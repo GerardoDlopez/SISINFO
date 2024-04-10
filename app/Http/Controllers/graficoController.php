@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Promovido;
 use App\Models\seccion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +16,7 @@ class graficoController extends Controller
         $masculinos = DB::table('promovidos')->where('id_seccion', $seccion->id)->where('genero', 'M')->count();
         $femeninos = DB::table('promovidos')->where('id_seccion', $seccion->id)->where('genero', 'H')->count();
         
-        $labels[]=$seccion->seccion;
+        $labels[]="$seccion->seccion $seccion->nombre";
         $promovidos[] =$seccion->promovidos_count;
         $meta[] = $seccion->meta;
         // Verificar si la sección tiene promovidos antes de calcular el porcentaje
@@ -36,5 +38,26 @@ class graficoController extends Controller
         }
         }
         return view('graficos.read',compact('secciones','labels','promovidos','meta'));
+    }
+
+    public function meta(seccion $seccion, Request $request){
+        
+        $seccion->meta = $request->meta;
+        $seccion->update();
+        return redirect()->route('grafico.read');
+    }
+
+    public function votos(){
+        $secciones = seccion::withCount('promovidos')->get();
+        // Iterar sobre cada sección y calcular el porcentaje alcanzado
+        foreach ($secciones as $seccion) {
+            
+        $labels[]="$seccion->seccion $seccion->nombre";    
+        $votos[] = DB::table('promovidos')->where('estatus_voto', 'true')->count();
+
+        $promovidos[] =$seccion->promovidos_count;
+        
+        }
+        return view('graficos.votos',compact('secciones','labels','promovidos','votos'));
     }
 }

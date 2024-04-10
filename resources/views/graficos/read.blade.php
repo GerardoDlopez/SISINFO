@@ -33,6 +33,9 @@
                 <th style="width: 60%;">
                   Progreso
                 </th>
+                <th>
+                  Meta
+                </th>
               </tr>
             </thead>
 
@@ -50,6 +53,43 @@
                         </div>
                         {{$seccion->porcentaje}}%
                     </td>
+                    <td>
+                      <div style="text-align: center">
+
+                        {{$seccion->meta}}
+                        <button type="button" class="btn btn-primary btn-icon btn-xs" data-bs-toggle="modal" data-bs-target="#exampleModal{{$seccion->id}}">
+                          <i data-feather="edit"></i>
+                        </button>
+                      </div>
+
+                      <div class="modal fade" id="exampleModal{{$seccion->id}}" tabindex="-1" aria-labelledby="exampleModalLabel{{$seccion->id}}" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Edita la meta de la seccion {{$seccion->seccion}}</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="btn-close"></button>
+                            </div>
+                            <form action="{{Route('meta', $seccion)}}" method="POST">
+                              <div class="modal-body">
+                                @csrf
+                                @method('put')
+                                <div class="mb-3">
+                                  <label for="meta_actual" class="form-label">Meta actual:  {{$seccion->meta}}</label>
+                                </div>
+                                <div class="mb-3">
+                                  <label for="meta" class="form-label">Nueva meta</label>
+                                  <input name="meta" class="form-control">
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button class="btn btn-primary" type="submit">Guardar cambios</button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+
+                    </td>
                   </tr>
               @endforeach
             </tbody>
@@ -59,6 +99,8 @@
     </div>
   </div>
 </div>
+
+
 @endsection
 
 @push('plugin-scripts')

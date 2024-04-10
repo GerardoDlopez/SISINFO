@@ -66,6 +66,14 @@
             </a>
           </li>
         @endcan
+        @can('ver-promovidos')
+          <li class="nav-item ">
+            <a href="{{Route('votos')}}" class="nav-link">
+              <i class="link-icon" data-feather="bar-chart-2"></i>
+              <span class="link-title">Votos</span>
+            </a>
+          </li>
+        @endcan
     </ul>
   </div>
 </nav>
