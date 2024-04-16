@@ -53,7 +53,7 @@ class graficoController extends Controller
         foreach ($secciones as $seccion) {
             
         $labels[]="$seccion->seccion $seccion->nombre";    
-        $votos[] = DB::table('promovidos')->where('estatus_voto', 'true')->count();
+        $votos[] = DB::table('promovidos')->where('estatus_voto', 'ya voto')->count();
 
         $promovidos[] =$seccion->promovidos_count;
         

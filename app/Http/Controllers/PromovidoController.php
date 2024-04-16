@@ -191,6 +191,7 @@ class PromovidoController extends Controller
     }
     
     public function promovido_update(Promovido $promovido, Request $request){
+
         if ($request->clave_elec) {
             if ($promovido->clave_elec != $request->clave_elec) {
                 $validated = $request->validate([
@@ -199,12 +200,6 @@ class PromovidoController extends Controller
                     'clave_elec.unique' => 'La clave de elector ya existe!',
                 ]);
             }
-        }
-        if ($request->fecha_captura) {
-            $fecha_captura = Carbon::createFromFormat('d/m/Y', $request->fecha_captura);
-            $fecha_captura = $fecha_captura->format('Y-m-d');
-        }else {
-            $fecha_captura = null;
         }
         
         $data =[
@@ -215,7 +210,6 @@ class PromovidoController extends Controller
             'clave_elec' => $request->clave_elec,
             'telefono' => $request->telefono,
             'id_ocupacion' => $request->ocupacion,
-            'fecha_captura' => $fecha_captura,
             'genero' => $request->genero,
             'edad' => $request->edad,
             'id_promotor' => $request->id_promotor,
@@ -229,5 +223,13 @@ class PromovidoController extends Controller
     public function promovido_delete(Promovido $promovido){
         $promovido->delete();
         return redirect()->route('promovido.read')->with('eliminar','ok');
+    }
+
+    public function votar(Promovido $promovido){
+        
+        $promovido->estatus_voto = "ya voto";
+        
+        $promovido->update();
+        return redirect()->route('promovido.read')->with('voto','ok');
     }
 }

@@ -172,6 +172,7 @@
                                 <th>Edad</th>
                                 <th>Promotor</th>
                                 <th>Lider</th>
+                                <th>Estatus voto</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>
@@ -196,6 +197,7 @@
                                     @else
                                         <td>Sin asignar</td>
                                     @endif
+                                    <td>{{$promovido->estatus_voto}}</td>
                                     <td>
                                         @can('actualizar-promovidos')
                                             <form   style="display:inline;" >
@@ -203,10 +205,17 @@
                                             </form>
                                         @endcan
                                         @can('eliminar-promovidos')
-                                            <form action="{{route('promovido.delete', $promovido)}}" style="display:inline;" method="POST" onsubmit="submitForm(event,'{{$promovido->id}}')" id="{{$promovido->id}}">
+                                            <form action="{{route('promovido.delete', $promovido)}}" style="display:inline;" method="POST" onsubmit="submitForm(event,'{{$promovido->id}}')" id="delete{{$promovido->id}}">
                                                 @csrf
                                                 @method('delete')
                                                 <button href="" class="btn btn-danger  btn-xs" type="submit">Eliminar</button>
+                                            </form>
+                                        @endcan
+                                        @can('actualizar-promovidos')
+                                            <form  action="{{route('votar', $promovido)}}" style="display:inline;" method="POST" onsubmit="submitVoto(event,'{{$promovido->id}}')" id="voto{{$promovido->id}}">
+                                                @csrf
+                                                @method('put')
+                                                <button href="" class="btn btn-primary  btn-xs" type="submit" >Asignar voto</button>
                                             </form>
                                         @endcan
                                     </td>
@@ -297,15 +306,35 @@
     <script>
         function submitForm(event,id){
             event.preventDefault();
-
+            id="delete"+id;
             Swal.fire({
                 title: 'estas seguro que deseas eliminar el registro ?',
                 text: "no podras revertir esto!",
-                icon: 'Cuidado',
+                icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si, Eliminar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    elemento= document.getElementById(id);
+                    elemento.submit();
+                }
+            })
+
+        }
+
+        function submitVoto(event,id){
+            event.preventDefault();
+            id="voto"+id;
+            Swal.fire({
+                title: 'estas seguro que deseas cambiar el voto de este promovido ? ',
+                text: "no podras revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, cambiar!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     elemento= document.getElementById(id);
@@ -337,6 +366,18 @@
             position: 'center',
             icon: 'success',
             title: 'Registro editado con exito',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        </script>
+    @endif
+    <!--Alerta de actualización-->
+    @if (session('voto')=='ok')
+        <script>
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'voto agregado con exito',
             showConfirmButton: false,
             timer: 1500
           })

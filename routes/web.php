@@ -29,6 +29,7 @@ Route::controller(PromovidoController::class)->group(function(){
     Route::get('/editar_promovido/{promovido}','promovido_edit')->name('promovido.edit')->middleware('can:actualizar-promovidos','auth');
     Route::put('/actualizar_promovido/{promovido}','promovido_update')->name('promovido.update')->middleware('can:actualizar-promovidos','auth');
     Route::delete('/eliminar_promovido/{promovido}','promovido_delete')->name('promovido.delete')->middleware('can:eliminar-promovidos','auth');
+    Route::put('/voto_promovido/{promovido}','votar')->name('votar')->middleware('can:actualizar-promovidos','auth');
 });
 
 Route::controller(UsuarioController::class)->group(function(){

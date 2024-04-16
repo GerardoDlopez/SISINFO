@@ -8,12 +8,6 @@
 
 @section('content')
 
-<nav class="page-breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#">Forms</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Advanced Elements</li>
-    </ol>
-</nav>
 
 <div class="row">
     <div class="card">
@@ -68,11 +62,6 @@
               </div>
 
               <div class="mb-3">
-                <label for="fecha_captura">Fecha de Captura</label>
-                <input id="fecha_captura" class="form-control"  name="fecha_captura" data-inputmask-inputformat="dd/mm/yyyy" data-inputmask="'alias': 'datetime'" inputmode="numeric" value="{{$fecha_captura}}">
-              </div>
-
-              <div class="mb-3">
                 <label for="genero">genero</label>
                 <input type="text" name="genero" class="form-control" value="{{$promovido->genero}}">
               </div>
@@ -100,6 +89,7 @@
                   @foreach ($users as $user)
                     <option value="{{$user->id}}" {{($promovido->id_usuario == $user->id) ? 'selected' : 'true' }}>{{$user->name}}</option>                      
                   @endforeach
+                  <option value="">Ninguno</option>
                 </select>
               </div>
               <div style="text-align: center">
