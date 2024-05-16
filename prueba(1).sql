@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-04-2024 a las 10:51:33
+-- Tiempo de generación: 27-04-2024 a las 20:25:00
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -3046,7 +3046,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `telefono`, `password`, `remember_token`, `rol`, `id_seccion`, `cant_promovidos`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'Admin@gmail.com', NULL, '9621863131', '$2y$12$xz86Vn0Iajgf5h/EnpcVueuPkjt6s.oTcVFU4phQJnYEG4pIXYzTK', NULL, 'administrador', NULL, 11, '2024-03-08 10:09:05', '2024-03-31 22:46:25'),
+(1, 'Admin', 'Admin@gmail.com', NULL, '9621863131', '$2y$12$xz86Vn0Iajgf5h/EnpcVueuPkjt6s.oTcVFU4phQJnYEG4pIXYzTK', NULL, 'administrador', NULL, 19, '2024-03-08 10:09:05', '2024-03-31 22:46:25'),
 (23, 'ARTURO ROBLERO PAZ', NULL, NULL, '9621222471', '$2y$12$tfYd3uIpeNt3F/9j5kQ5Eu37M.sJg9I3C8tNv2bQHuIr8K4wAbw/2', NULL, 'responsable', 1, 0, '2024-03-26 19:45:16', '2024-03-31 22:54:53'),
 (25, 'MARIA GUADALUPE MANCERA RAMIREZ', NULL, NULL, '9621373882', '$2y$12$pCovsT8cZcZQXK20Pb.8EO11qK5lfrrTTCNh7YRpDfOWhqVVZbRYq', NULL, 'responsable', 3, 0, '2024-03-26 19:46:16', '2024-03-31 23:13:36'),
 (26, 'ANA LUISA MANCERA RAMIREZ', NULL, NULL, '9622948082', '$2y$12$QQ7YpyLFxgFD12XrjL.sjO4gXb1aWdfpxSxrJCZRhRVPYlzjiLeWK', NULL, 'responsable', 4, 0, '2024-03-26 19:46:32', '2024-03-31 23:15:00'),
@@ -3348,7 +3348,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT de la tabla `promovidos`
 --
 ALTER TABLE `promovidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3327;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3335;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`

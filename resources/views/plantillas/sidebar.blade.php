@@ -1,7 +1,7 @@
 <nav class="sidebar">
   <div class="sidebar-header">
     <a href="#" class="sidebar-brand">
-      HORMIGUERO
+      SISINFO
     </a>
     <div class="sidebar-toggler not-active">
       <span></span>
@@ -31,12 +31,12 @@
         @can('ver-promovidos|agregar-promovidos')
             
         @endcan
-        <li  class="nav-item nav-category">Promovidos</li>
+        <li  class="nav-item nav-category">Empleados</li>
         @can('ver-promovidos')    
           <li class="nav-item ">
             <a href="{{Route('promovido.read')}}" class="nav-link">
               <i class="link-icon" data-feather="file"></i>
-              <span class="link-title">Lista de promovidos</span>
+              <span class="link-title">Lista de empleados</span>
             </a>
           </li>
         @endcan
@@ -44,7 +44,7 @@
         <li class="nav-item ">
           <a href="{{Route('promovido.create')}}" class="nav-link">
             <i class="link-icon" data-feather="file-plus"></i>
-            <span class="link-title">Agregar promovido</span>
+            <span class="link-title">Agregar empleado</span>
           </a>
         </li>
         @endcan

@@ -69,7 +69,8 @@ class PromovidoController extends Controller
     public function promovido_store(Request $request ){
 
         $nombreCompleto = $request->nombre . ' ' . $request->apellido_pat . ' ' . $request->apellido_mat;
-        $claveElec = $request->clave_elec;
+        
+        $claveElec = strtoupper($request->clave_elec);
         $request->merge(['nombre' => $nombreCompleto]);
 
         $duplicados = Promovido::whereNotNull('clave_elec') // No traer registros con 'clave_elec' nulo
@@ -90,35 +91,41 @@ class PromovidoController extends Controller
 
         //validamos la clave elector
         if($request->clave_elec){
-            
-            $estatus_credencial = 'valida';
-            // Extraer género y fecha de nacimiento de la clave de elector
-            $claveElector = $request->clave_elec;
-            // Obtener fecha de nacimiento
-            $dia = substr($claveElector, 10, 2);
-            $mes = substr($claveElector, 8, 2);
-            $anio = substr($claveElector, 6, 2);
+            try {
+                $estatus_credencial = 'valida';
+                // Extraer género y fecha de nacimiento de la clave de elector
+                $claveElector = $request->clave_elec;
+                // Obtener fecha de nacimiento
+                $dia = substr($claveElector, 10, 2);
+                $mes = substr($claveElector, 8, 2);
+                $anio = substr($claveElector, 6, 2);
 
-            $anioCompleto = ($anio >= 0 && $anio <= 24) ? "20$anio" : "19$anio";
+                $anioCompleto = ($anio >= 0 && $anio <= 24) ? "20$anio" : "19$anio";
 
-            // Validar año para personas nacidas después del 2000
-            $fechaNacimiento = "$anioCompleto-$mes-$dia"; // Para años desde 00 hasta 
+                // Validar año para personas nacidas después del 2000
+                $fechaNacimiento = "$anioCompleto-$mes-$dia"; // Para años desde 00 hasta 
 
-            // Validar que la fecha de nacimiento sea una fecha válida
-            if (!checkdate($mes, $dia, $anioCompleto)) {
-            $estatus_credencial = 'invalida';
-            }
-
-            // Calcular edad
-            $fechaActual = date('Y-m-d');
-            $edad = date_diff(date_create($fechaNacimiento), date_create($fechaActual))->y;
-
-            // Validar que la edad esté dentro de un rango esperado (opcional)
-            if ($edad < 0 || $edad > 150) {
+                // Validar que la fecha de nacimiento sea una fecha válida
+                if (!checkdate($mes, $dia, $anioCompleto)) {
                 $estatus_credencial = 'invalida';
+                }
+
+                // Calcular edad
+                $fechaActual = date('Y-m-d');
+                $edad = date_diff(date_create($fechaNacimiento), date_create($fechaActual))->y;
+
+                // Validar que la edad esté dentro de un rango esperado (opcional)
+                if ($edad < 0 || $edad > 150) {
+                    $estatus_credencial = 'invalida';
+                }
+                // Determinar el género
+                $genero = strtoupper(substr($claveElector, 14, 1)); // Convertir a mayúsculas para uniformidad    
+            } catch (\Throwable $th) {
+                $estatus_credencial = 'invalida';
+                $genero=null;
+                $edad=null;
             }
-            // Determinar el género
-            $genero = strtoupper(substr($claveElector, 14, 1)); // Convertir a mayúsculas para uniformidad
+            
         }else {
             $genero=null;
             $edad=null;
@@ -146,7 +153,7 @@ class PromovidoController extends Controller
             'nombre' => $request->nombre,
             'localidad' => $request->localidad,
             'domicilio' => $request->domicilio,
-            'clave_elec' => $request->clave_elec,
+            'clave_elec' => strtoupper($request->clave_elec),
             'telefono' => $request->telefono,
             'id_ocupacion' => $request->ocupacion,
             'fecha_captura' => $fecha_captura,
